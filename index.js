@@ -1,55 +1,60 @@
-import http from "http";
-import { WEB_APP_DEV_PROXY_HOST, WEB_APP_DEV_PROXY_PORT } from "./constants.js";
-import { runPreflightCheck } from "./preflight.js";
-import { setHeaders } from "./headers.js";
-import { urlIsValid } from "./validation.js";
-import { forwardRequest } from "./request.js";
-import {
-	logServerStartup,
-	logServerUrl,
-	logServerError,
-	logIncomingRequest,
-	logServerShutdown
-} from "./logFunctions.js";
+export { IS_LOCAL_WEB_APP } from "./constants.js";
+export { adaptFetchUrl } from "./utils.js";
 
-logServerStartup();
+if (typeof process !== "undefined") {
+	const http = await import("http");
+	const { WEB_APP_DEV_PROXY_HOST, WEB_APP_DEV_PROXY_PORT } = await import(
+		"./constants.js"
+	);
+	const { runPreflightCheck } = await import("./preflight.js");
+	const { setHeaders } = await import("./headers.js");
+	const { urlIsValid } = await import("./validation.js");
+	const { forwardRequest } = await import("./request.js");
+	const {
+		logServerStartup,
+		logServerUrl,
+		logServerError,
+		logIncomingRequest,
+		logServerShutdown
+	} = await import("./logFunctions.js");
 
-try {
-	http
-		.createServer((req, res) => {
-			const targetUrl = req.url.replace(/^\//, "");
+	logServerStartup();
 
-			logIncomingRequest(targetUrl, req.method);
+	try {
+		http
+			.createServer((req, res) => {
+				const targetUrl = req.url.replace(/^\//, "");
 
-			if (req.method === "OPTIONS") {
-				runPreflightCheck(req, res);
-				return;
-			}
+				logIncomingRequest(targetUrl, req.method);
 
-			setHeaders(res, req.headers.origin);
+				if (req.method === "OPTIONS") {
+					runPreflightCheck(req, res);
+					return;
+				}
 
-			if (!urlIsValid(targetUrl, res)) return;
+				setHeaders(res, req.headers.origin);
 
-			forwardRequest(targetUrl, req, res);
-		})
-		.listen(WEB_APP_DEV_PROXY_PORT, WEB_APP_DEV_PROXY_HOST, () => {
-			logServerUrl();
-		})
-		.on("error", (err) => {
-			logServerError(err);
-		});
-} catch (err) {
-	logServerError(err);
+				if (!urlIsValid(targetUrl, res)) return;
+
+				forwardRequest(targetUrl, req, res);
+			})
+			.listen(WEB_APP_DEV_PROXY_PORT, WEB_APP_DEV_PROXY_HOST, () => {
+				logServerUrl();
+			})
+			.on("error", (err) => {
+				logServerError(err);
+			});
+	} catch (err) {
+		logServerError(err);
+	}
+
+	process.on("SIGINT", () => {
+		logServerShutdown();
+		process.exit(0);
+	});
+
+	process.on("SIGTERM", () => {
+		logServerShutdown();
+		process.exit(0);
+	});
 }
-
-process.on("SIGINT", () => {
-	logServerShutdown();
-	process.exit(0);
-});
-
-process.on("SIGTERM", () => {
-	logServerShutdown();
-	process.exit(0);
-});
-
-export { parseFetchUrl } from "./utils.js";
