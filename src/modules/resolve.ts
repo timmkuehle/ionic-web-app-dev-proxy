@@ -5,15 +5,18 @@ import { getStatusDescription, stringifyData } from "./utils";
 export const resolveRequest = (
 	res: ServerResponse<IncomingMessage>,
 	status: number,
-	contentType: string,
-	data?: {}
+	body?: { contentType: string; data: {} }
 ) => {
+	const contentType = body?.contentType || "application/json";
+
 	logRequestResponse(status);
 
-	res.setHeader("Content-Type", contentType);
+	if (body) {
+		res.setHeader("Content-Type", contentType);
+	}
 
 	res.writeHead(status);
-	res.end(data ? stringifyData(data, contentType) : null);
+	res.end(body ? stringifyData(body.data, contentType) : null);
 };
 
 export const resolveWithError = (
