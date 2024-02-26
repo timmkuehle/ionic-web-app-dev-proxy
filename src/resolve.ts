@@ -13,7 +13,7 @@ export const resolveRequest = (
 	res.setHeader("Content-Type", contentType);
 
 	res.writeHead(status);
-	res.end(stringifyData(data, contentType));
+	res.end(data ? stringifyData(data, contentType) : null);
 };
 
 export const resolveWithError = (
