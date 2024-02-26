@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { allowedOrigins } from "./constants.js";
-import { setHeaders } from "./headers.js";
-import { resolveWithError } from "./resolve.js";
+import { allowedOrigins } from "./constants";
+import { setHeaders } from "./headers";
+import { resolveWithError } from "./resolve";
 
 export const runPreflightCheck = (
 	req: IncomingMessage,

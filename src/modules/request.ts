@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { MAX_REQUEST_BODY_SIZE_MB } from "./constants.js";
-import { resolveRequest, resolveWithError } from "./resolve.js";
+import { MAX_REQUEST_BODY_SIZE_MB } from "./constants";
+import { resolveRequest, resolveWithError } from "./resolve";
 
 export const forwardRequest = (
 	req: IncomingMessage,

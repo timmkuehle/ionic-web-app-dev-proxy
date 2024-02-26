@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { logRequestResponse } from "./logFunctions.js";
-import { getStatusDescription, stringifyData } from "./utils.js";
+import { logRequestResponse } from "./logFunctions";
+import { getStatusDescription, stringifyData } from "./utils";
 
 export const resolveRequest = (
 	res: ServerResponse<IncomingMessage>,

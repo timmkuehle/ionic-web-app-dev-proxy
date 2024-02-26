@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { resolveWithError } from "./resolve.js";
+import { resolveWithError } from "./resolve";
 
 export const urlIsValid = (
 	req: IncomingMessage,

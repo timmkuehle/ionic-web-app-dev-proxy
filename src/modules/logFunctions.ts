@@ -1,6 +1,6 @@
 import colors from "colors";
-import { WEB_APP_DEV_PROXY_URL } from "./constants.js";
-import { getStatusDescription } from "./utils.js";
+import { WEB_APP_DEV_PROXY_URL } from "./constants";
+import { getStatusDescription } from "./utils";
 
 export const logServerStartup = () => {
 	console.log("Starting proxy server for web app development ...\n");
