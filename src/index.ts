@@ -1,22 +1,22 @@
-export { IS_LOCAL_WEB_APP } from "./constants.js";
-export { adaptFetchUrl } from "./utils.js";
+export { IS_LOCAL_WEB_APP } from "./modules/constants.js";
+export { adaptFetchUrl } from "./modules/utils.js";
 
 if (typeof process !== "undefined") {
 	const http = await import("http");
 	const { WEB_APP_DEV_PROXY_HOST, WEB_APP_DEV_PROXY_PORT } = await import(
-		"./constants.js"
+		"./modules/constants.js"
 	);
-	const { runPreflightCheck } = await import("./preflight");
-	const { setHeaders } = await import("./headers");
-	const { urlIsValid } = await import("./validation");
-	const { forwardRequest } = await import("./request");
+	const { runPreflightCheck } = await import("./modules/preflight.js");
+	const { setHeaders } = await import("./modules/headers.js");
+	const { urlIsValid } = await import("./modules/validation.js");
+	const { forwardRequest } = await import("./modules/request.js");
 	const {
 		logServerStartup,
 		logServerUrl,
 		logServerError,
 		logIncomingRequest,
 		logServerShutdown,
-	} = await import("./logFunctions.js");
+	} = await import("./modules/logFunctions.js");
 
 	logServerStartup();
 
