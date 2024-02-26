@@ -4,7 +4,8 @@
 	"description": "A proxy server for HTTP requests from an ionic web application running locally",
 	"main": "src/index.ts",
 	"scripts": {
-		"build": "webpack --mode production"
+		"build": "webpack --mode production",
+		"startServer": "node server.js"
 	},
 	"repository": {
 		"type": "git",
