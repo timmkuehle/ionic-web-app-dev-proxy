@@ -1,6 +1,3 @@
-export { IS_LOCAL_WEB_APP } from "./modules/constants";
-export { adaptFetchUrl } from "./modules/utils";
-
 import http from "http";
 import {
 	WEB_APP_DEV_PROXY_HOST,
