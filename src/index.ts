@@ -34,9 +34,9 @@ if (typeof process !== "undefined") {
 
 				setHeaders(res, req.headers.origin);
 
-				if (!urlIsValid(targetUrl, res)) return;
+				if (!urlIsValid(req, res, targetUrl)) return;
 
-				forwardRequest(targetUrl, req, res);
+				forwardRequest(req, res, targetUrl);
 			})
 			.listen(WEB_APP_DEV_PROXY_PORT, WEB_APP_DEV_PROXY_HOST, () => {
 				logServerUrl();
