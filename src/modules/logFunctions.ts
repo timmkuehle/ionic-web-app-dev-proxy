@@ -65,7 +65,7 @@ export const logRequestResponse = (
 				? colors.red(
 						`${status} - ${getStatusDescription(status)}` +
 							(errorMessage ? `: ${errorMessage}` : "")
-				  )
+					)
 				: colors.green(`${status} - ${getStatusDescription(status)}`))
 	);
 };
