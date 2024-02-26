@@ -15,7 +15,7 @@ if (typeof process !== "undefined") {
 		logServerUrl,
 		logServerError,
 		logIncomingRequest,
-		logServerShutdown
+		logServerShutdown,
 	} = await import("./logFunctions.js");
 
 	logServerStartup();

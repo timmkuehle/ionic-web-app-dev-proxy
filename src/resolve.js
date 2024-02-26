@@ -13,8 +13,8 @@ export const resolveWithError = (req, res, status, message, debug = null) => {
 				code: status,
 				http_status: status,
 				message: `${status}: ${getStatusDescription(status)}`,
-				data: debug ? { debug } : {}
-			}
+				data: debug ? { debug } : {},
+			},
 		})
 	);
 

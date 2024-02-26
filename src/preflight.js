@@ -11,7 +11,7 @@ export const runPreflightCheck = (req, res) => {
 	if (!allowedOrigins.includes(origin)) {
 		error = {
 			code: 403,
-			message: `Origin [${origin}] is not allowed to access proxy server`
+			message: `Origin [${origin}] is not allowed to access proxy server`,
 		};
 	}
 

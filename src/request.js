@@ -29,9 +29,9 @@ export const forwardRequest = (url, req, res) => {
 			const response = await fetch(url, {
 				method: req.method,
 				headers: {
-					"Content-Type": reqContentType
+					"Content-Type": reqContentType,
 				},
-				body: req.body
+				body: req.body,
 			});
 
 			const resContentType =
