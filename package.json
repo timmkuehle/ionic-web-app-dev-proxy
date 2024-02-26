@@ -25,6 +25,10 @@
 	},
 	"homepage": "https://github.com/timmkuehle/ionic-web-app-dev-proxy#readme",
 	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^7.1.0",
+		"@typescript-eslint/parser": "^7.1.0",
+		"eslint": "^8.57.0",
+		"prettier": "^3.2.5",
 		"ts-loader": "^9.5.1",
 		"typescript": "^5.3.3",
 		"webpack": "^5.90.3",
