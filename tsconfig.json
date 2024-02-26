@@ -1,5 +1,5 @@
 {
-	"include": ["src/**/*", "index.d.ts"],
+	"include": ["**/*", "index.d.ts"],
 	"exclude": ["node_modules", "server.js"],
 	"compilerOptions": {
 		"outDir": "ts",
