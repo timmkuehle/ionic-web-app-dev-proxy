@@ -1,5 +1,3 @@
-import { IS_LOCAL_WEB_APP, WEB_APP_DEV_PROXY_URL } from "./constants";
-
 export const getStatusDescription = (status: number) => {
 	switch (status) {
 		case 200:
@@ -27,8 +25,4 @@ export const stringifyData = (data: {}, contentType: string) => {
 	}
 
 	return data.toString();
-};
-
-export const adaptFetchUrl = (url: string) => {
-	return IS_LOCAL_WEB_APP ? `${WEB_APP_DEV_PROXY_URL}/${url}` : url;
 };
