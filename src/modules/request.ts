@@ -45,7 +45,10 @@ export const forwardRequest = (
 					? await response.json()
 					: response.text();
 
-			resolveRequest(res, response.status, resContentType, data);
+			resolveRequest(res, response.status, {
+				contentType: resContentType,
+				data,
+			});
 		} catch (err) {
 			const { stack, code, message } = err as NodeJS.ErrnoException;
 
