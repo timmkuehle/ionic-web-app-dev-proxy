@@ -2,7 +2,7 @@
 	"name": "ionic-web-app-dev-proxy",
 	"version": "0.0.9",
 	"description": "A proxy server for HTTP requests from an ionic web application running locally",
-	"main": "src/index.ts",
+	"main": "index.js",
 	"scripts": {
 		"build": "webpack --mode production",
 		"startServer": "node server.js"
