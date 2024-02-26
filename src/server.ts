@@ -2,7 +2,7 @@ import http from "http";
 import {
 	WEB_APP_DEV_PROXY_HOST,
 	WEB_APP_DEV_PROXY_PORT,
-} from "./modules/constants";
+} from "../modules/constants";
 import { runPreflightCheck } from "./modules/preflight";
 import { setHeaders } from "./modules/headers";
 import { urlIsValid } from "./modules/validation";

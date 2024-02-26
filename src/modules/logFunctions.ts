@@ -1,5 +1,5 @@
 import colors from "colors";
-import { WEB_APP_DEV_PROXY_URL } from "./constants";
+import { WEB_APP_DEV_PROXY_URL } from "../../modules/constants";
 import { getStatusDescription } from "./utils";
 
 export const logServerStartup = () => {

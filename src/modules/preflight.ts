@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { allowedOrigins } from "./constants";
+import { allowedOrigins } from "../../modules/constants";
 import { setHeaders } from "./headers";
 import { resolveRequest, resolveWithError } from "./resolve";
 
