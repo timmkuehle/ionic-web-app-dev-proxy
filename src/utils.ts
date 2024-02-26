@@ -1,6 +1,6 @@
 import { IS_LOCAL_WEB_APP, WEB_APP_DEV_PROXY_URL } from "./constants.js";
 
-export const getStatusDescription = (status) => {
+export const getStatusDescription = (status: number) => {
 	switch (status) {
 		case 200:
 			return "OK";
@@ -21,7 +21,7 @@ export const getStatusDescription = (status) => {
 	}
 };
 
-export const stringifyData = (data, contentType) => {
+export const stringifyData = (data: {}, contentType: string) => {
 	if (contentType === "application/json") {
 		return JSON.stringify(data);
 	}
@@ -29,6 +29,6 @@ export const stringifyData = (data, contentType) => {
 	return data.toString();
 };
 
-export const adaptFetchUrl = (url) => {
+export const adaptFetchUrl = (url: string) => {
 	return IS_LOCAL_WEB_APP ? `${WEB_APP_DEV_PROXY_URL}/${url}` : url;
 };
