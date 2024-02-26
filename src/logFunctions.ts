@@ -14,14 +14,15 @@ export const logServerUrl = () => {
 	console.log(`${colors.green(`  ➜ ${WEB_APP_DEV_PROXY_URL}`)}\n`);
 };
 
-export const logServerError = (err) => {
+export const logServerError = (err: NodeJS.ErrnoException) => {
 	let errMsg;
 	switch (err.code) {
 		case "EADDRINUSE":
 			errMsg = `Error: listen EADDRINUSE: ${WEB_APP_DEV_PROXY_URL} is already in use.`;
 			break;
 		default:
-			errMsg = err.stack.split("\n")[0];
+			errMsg =
+				err.stack?.split("\n")[0] || `Error: ${err.code}: ${err.message}`;
 	}
 
 	console.log(colors.red(`  ➜ ${errMsg}\n`));
@@ -34,7 +35,7 @@ const baseLog =
 		)
 	) + colors.cyan(" [webAppDevProxy] ");
 
-export const logIncomingRequest = (url, method) => {
+export const logIncomingRequest = (url: string, method?: string) => {
 	const isPreflight = method === "OPTIONS";
 
 	console.log(
@@ -44,15 +45,15 @@ export const logIncomingRequest = (url, method) => {
 				: colors.green("incoming request ➜ ")) +
 			colors.grey(
 				`URL: ${(isPreflight ? colors.yellow : colors.green)(url)}` +
-					(!isPreflight ? ` Method: ${colors.green(method)}` : "")
+					(!isPreflight ? ` Method: ${colors.green(method || "UNKNOWN")}` : "")
 			)
 	);
 };
 
 export const logRequestResponse = (
-	status,
-	errorMessage,
-	isPreflight = false
+	status: number,
+	errorMessage?: string,
+	isPreflight?: boolean
 ) => {
 	console.log(
 		baseLog +

@@ -6,10 +6,10 @@ if (typeof process !== "undefined") {
 	const { WEB_APP_DEV_PROXY_HOST, WEB_APP_DEV_PROXY_PORT } = await import(
 		"./constants.js"
 	);
-	const { runPreflightCheck } = await import("./preflight.js");
-	const { setHeaders } = await import("./headers.js");
-	const { urlIsValid } = await import("./validation.js");
-	const { forwardRequest } = await import("./request.js");
+	const { runPreflightCheck } = await import("./preflight");
+	const { setHeaders } = await import("./headers");
+	const { urlIsValid } = await import("./validation");
+	const { forwardRequest } = await import("./request");
 	const {
 		logServerStartup,
 		logServerUrl,
@@ -23,7 +23,7 @@ if (typeof process !== "undefined") {
 	try {
 		http
 			.createServer((req, res) => {
-				const targetUrl = req.url.replace(/^\//, "");
+				const targetUrl = req.url?.replace(/^\//, "") || "/";
 
 				logIncomingRequest(targetUrl, req.method);
 
@@ -45,7 +45,7 @@ if (typeof process !== "undefined") {
 				logServerError(err);
 			});
 	} catch (err) {
-		logServerError(err);
+		logServerError(err as NodeJS.ErrnoException);
 	}
 
 	process.on("SIGINT", () => {

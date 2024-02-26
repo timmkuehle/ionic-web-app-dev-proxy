@@ -1,12 +1,15 @@
+import { IncomingMessage, ServerResponse } from "http";
 import { MAX_REQUEST_BODY_SIZE_MB } from "./constants.js";
-import { logRequestResponse } from "./logFunctions.js";
-import { resolveWithError } from "./resolve.js";
-import { stringifyData } from "./utils.js";
+import { resolveRequest, resolveWithError } from "./resolve.js";
 
-export const forwardRequest = (url, req, res) => {
+export const forwardRequest = (
+	url: string,
+	req: IncomingMessage,
+	res: ServerResponse<IncomingMessage>
+) => {
 	const reqContentType = req.headers["content-type"] || "application/json";
 
-	req.body = "";
+	let reqBody = "";
 	let reqBodySize = 0;
 
 	req.on("data", (chunk) => {
@@ -21,7 +24,7 @@ export const forwardRequest = (url, req, res) => {
 			return;
 		}
 
-		req.body += chunk;
+		reqBody += chunk;
 	});
 
 	req.on("end", async () => {
@@ -31,20 +34,24 @@ export const forwardRequest = (url, req, res) => {
 				headers: {
 					"Content-Type": reqContentType,
 				},
-				body: req.body,
+				body: reqBody,
 			});
 
 			const resContentType =
 				response.headers.get("content-type") || "application/json";
 
-			logRequestResponse(response.status);
+			const data =
+				reqContentType === "application/json"
+					? await response.json()
+					: response.text();
 
-			res.setHeader("Content-Type", resContentType);
+			resolveRequest(res, response.status, resContentType, data);
+		} catch (err) {
+			const { stack, code, message } = err as NodeJS.ErrnoException;
 
-			res.writeHead(response.status);
-			res.end(stringifyData(await response.json(), resContentType));
-		} catch (error) {
-			resolveWithError(req, res, 500, error.stack.split("\n")[0], error.stack);
+			const errMsg = stack?.split("\n")[0] || `Error: ${code}: ${message}`;
+
+			resolveWithError(req, res, 500, errMsg, stack);
 		}
 	});
 };
