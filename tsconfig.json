@@ -2,6 +2,7 @@
 	"include": ["src/**/*", "index.d.ts"],
 	"exclude": ["node_modules"],
 	"compilerOptions": {
+		"outDir": "ts",
 		"strict": true,
 		"target": "ES2017",
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
