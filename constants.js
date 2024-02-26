@@ -1,9 +1,10 @@
 import { Capacitor } from "@capacitor/core";
 
-const ENV = import.meta.env;
+const ENV = typeof process !== "undefined" ? process?.env : import.meta.env;
 
 export const IS_LOCAL_WEB_APP =
-	!Capacitor.isNativePlatform() && ENV.MODE === "development";
+	!Capacitor.isNativePlatform() &&
+	(typeof ENV.MODE === "undefined" || ENV.MODE === "development");
 
 export const WEB_APP_DEV_PROXY_HOST = "localhost";
 
