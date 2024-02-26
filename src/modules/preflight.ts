@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { allowedOrigins } from "./constants";
 import { setHeaders } from "./headers";
-import { resolveWithError } from "./resolve";
+import { resolveRequest, resolveWithError } from "./resolve";
 
 export const runPreflightCheck = (
 	req: IncomingMessage,
@@ -28,4 +28,6 @@ export const runPreflightCheck = (
 		resolveWithError(req, res, error.code, error.message);
 		return;
 	}
+
+	resolveRequest(res, 200);
 };
