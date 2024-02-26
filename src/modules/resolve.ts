@@ -5,7 +5,7 @@ import { getStatusDescription, stringifyData } from "./utils";
 export const resolveRequest = (
 	res: ServerResponse<IncomingMessage>,
 	status: number,
-	body?: { contentType: string; data: {} }
+	body?: { contentType: string; data: object }
 ) => {
 	const contentType = body?.contentType || "application/json";
 

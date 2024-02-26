@@ -19,7 +19,7 @@ export const getStatusDescription = (status: number) => {
 	}
 };
 
-export const stringifyData = (data: {}, contentType: string) => {
+export const stringifyData = (data: object, contentType: string) => {
 	if (contentType === "application/json") {
 		return JSON.stringify(data);
 	}
