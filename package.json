@@ -22,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/timmkuehle/ionic-web-app-dev-proxy/issues"
   },
-  "homepage": "https://github.com/timmkuehle/ionic-web-app-dev-proxy#readme"
+  "homepage": "https://github.com/timmkuehle/ionic-web-app-dev-proxy#readme",
+  "devDependencies": {
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.90.3"
+  }
 }

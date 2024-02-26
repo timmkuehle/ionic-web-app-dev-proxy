@@ -1,0 +1,20 @@
+{
+	"include": ["src/**/*"],
+	"exclude": ["node_modules"],
+	"compilerOptions": {
+		"strict": true,
+		"target": "ES5",
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"skipLibCheck": true,
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strictPropertyInitialization": false,
+		"noFallthroughCasesInSwitch": true,
+		"allowJs": true,
+		"noEmit": true
+	}
+}
