@@ -1,31 +1,36 @@
 {
-  "name": "ionic-web-app-dev-proxy",
-  "version": "0.0.9",
-  "description": "A proxy server for HTTP requests from an ionic web application running locally",
-  "main": "src/index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/timmkuehle/ionic-web-app-dev-proxy.git"
-  },
-  "keywords": [
-    "ionic",
-    "web",
-    "app",
-    "local",
-    "development"
-  ],
-  "author": "Tim Moritz Kühle",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/timmkuehle/ionic-web-app-dev-proxy/issues"
-  },
-  "homepage": "https://github.com/timmkuehle/ionic-web-app-dev-proxy#readme",
-  "devDependencies": {
-    "ts-loader": "^9.5.1",
-    "typescript": "^5.3.3",
-    "webpack": "^5.90.3"
-  }
+	"name": "ionic-web-app-dev-proxy",
+	"version": "0.0.9",
+	"description": "A proxy server for HTTP requests from an ionic web application running locally",
+	"main": "src/index.ts",
+	"scripts": {
+		"build": "webpack --mode production"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/timmkuehle/ionic-web-app-dev-proxy.git"
+	},
+	"keywords": [
+		"ionic",
+		"web",
+		"app",
+		"local",
+		"development"
+	],
+	"author": "Tim Moritz Kühle",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/timmkuehle/ionic-web-app-dev-proxy/issues"
+	},
+	"homepage": "https://github.com/timmkuehle/ionic-web-app-dev-proxy#readme",
+	"devDependencies": {
+		"ts-loader": "^9.5.1",
+		"typescript": "^5.3.3",
+		"webpack": "^5.90.3",
+		"webpack-cli": "^5.1.4"
+	},
+	"dependencies": {
+		"@capacitor/core": "^5.7.0",
+		"colors": "^1.4.0"
+	}
 }
