@@ -3,9 +3,9 @@ import { MAX_REQUEST_BODY_SIZE_MB } from "./constants.js";
 import { resolveRequest, resolveWithError } from "./resolve.js";
 
 export const forwardRequest = (
-	url: string,
 	req: IncomingMessage,
-	res: ServerResponse<IncomingMessage>
+	res: ServerResponse<IncomingMessage>,
+	url: string
 ) => {
 	const reqContentType = req.headers["content-type"] || "application/json";
 
