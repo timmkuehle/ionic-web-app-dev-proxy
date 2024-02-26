@@ -1,4 +1,4 @@
-import { IS_LOCAL_WEB_APP, WEB_APP_DEV_PROXY_URL } from "./constants";
+import { IS_LOCAL_WEB_APP, WEB_APP_DEV_PROXY_URL } from "./constants.js";
 
 export const getStatusDescription = (status) => {
 	switch (status) {
@@ -29,6 +29,6 @@ export const stringifyData = (data, contentType) => {
 	return data.toString();
 };
 
-export const parseFetchUrl = (url) => {
+export const adaptFetchUrl = (url) => {
 	return IS_LOCAL_WEB_APP ? `${WEB_APP_DEV_PROXY_URL}/${url}` : url;
 };
