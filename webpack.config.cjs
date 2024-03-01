@@ -11,7 +11,10 @@ module.exports = (env, argv) => {
 		devtool,
 		target: "node",
 		externals: [nodeExternals()],
-		entry: "./src/server.ts",
+		entry: {
+			startServer: "./src/startServer.ts",
+			serveWithProxy: "./src/serveWithProxy.ts"
+		},
 		module: {
 			rules: [
 				{
@@ -24,7 +27,7 @@ module.exports = (env, argv) => {
 		resolve: { extensions: ["", ".js", ".ts"] },
 		output: {
 			path: path.resolve(__dirname, "scripts"),
-			filename: "startServer.js"
+			filename: "[name].js"
 		}
 	};
 };
