@@ -5,8 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "webpack --mode production",
-		"startServer": "node scripts/startServer.js",
-		"serveWithProxy": "ionic serve & npm run startServer"
+		"startServer": "node scripts/startServer.js"
 	},
 	"repository": {
 		"type": "git",
