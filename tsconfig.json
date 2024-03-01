@@ -1,0 +1,20 @@
+{
+	"include": ["**/*", "index.d.ts"],
+	"exclude": ["node_modules", "server.js"],
+	"compilerOptions": {
+		"outDir": "ts",
+		"strict": true,
+		"target": "ES2017",
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		"skipLibCheck": true,
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strictPropertyInitialization": false,
+		"noFallthroughCasesInSwitch": true,
+		"allowJs": true
+	}
+}
