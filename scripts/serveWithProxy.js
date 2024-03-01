@@ -1,0 +1,1 @@
+(()=>{"use strict";(0,require("child_process").exec)("ionic serve",((e,c,s)=>{e&&console.log("Dit war nüscht",e),console.log("Guckste da:",c)}))})();
