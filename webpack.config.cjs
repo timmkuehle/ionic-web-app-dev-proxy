@@ -27,6 +27,12 @@ module.exports = (env, argv) => {
 			path: path.resolve(__dirname, "scripts"),
 			filename: "startServer.js"
 		},
-		plugins: [new NodemonPlugin({ args: ["development"] })]
+		plugins: [
+			new NodemonPlugin({
+				watch: path.resolve("./scripts"),
+				ignore: ["*.js.map"],
+				args: ["webpack --watch"]
+			})
+		]
 	};
 };
