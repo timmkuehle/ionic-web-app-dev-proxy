@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "webpack --mode production",
-		"startServer": "node server.js"
+		"startServer": "node scripts/startServer.js"
 	},
 	"repository": {
 		"type": "git",

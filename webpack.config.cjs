@@ -17,14 +17,14 @@ module.exports = (env, argv) => {
 				{
 					test: /\.(j|t)s$/,
 					exclude: /node_modules/,
-					use: "ts-loader",
-				},
-			],
+					use: "ts-loader"
+				}
+			]
 		},
 		resolve: { extensions: ["", ".js", ".ts"] },
 		output: {
-			path: path.resolve(__dirname),
-			filename: "server.js",
-		},
+			path: path.resolve(__dirname, "scripts"),
+			filename: "startServer.js"
+		}
 	};
 };
