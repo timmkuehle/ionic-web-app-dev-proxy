@@ -1,7 +1,7 @@
 import http from "http";
 import {
 	WEB_APP_DEV_PROXY_HOST,
-	WEB_APP_DEV_PROXY_PORT,
+	WEB_APP_DEV_PROXY_PORT
 } from "../modules/constants";
 import { runPreflightCheck } from "./modules/preflight";
 import { setHeaders } from "./modules/headers";
@@ -12,30 +12,29 @@ import {
 	logServerUrl,
 	logServerError,
 	logIncomingRequest,
-	logServerShutdown,
+	logServerShutdown
 } from "./modules/logFunctions";
 
 if (typeof process !== "undefined") {
 	logServerStartup();
 
 	try {
-		http
-			.createServer((req, res) => {
-				const targetUrl = req.url?.replace(/^\//, "") || "/";
+		http.createServer((req, res) => {
+			const targetUrl = req.url?.replace(/^\//, "") || "/";
 
-				logIncomingRequest(targetUrl, req.method);
+			logIncomingRequest(targetUrl, req.method);
 
-				if (req.method === "OPTIONS") {
-					runPreflightCheck(req, res);
-					return;
-				}
+			if (req.method === "OPTIONS") {
+				runPreflightCheck(req, res);
+				return;
+			}
 
-				setHeaders(res, req.headers.origin);
+			setHeaders(res, req.headers.origin);
 
-				if (!urlIsValid(req, res, targetUrl)) return;
+			if (!urlIsValid(req, res, targetUrl)) return;
 
-				forwardRequest(req, res, targetUrl);
-			})
+			forwardRequest(req, res, targetUrl);
+		})
 			.listen(WEB_APP_DEV_PROXY_PORT, WEB_APP_DEV_PROXY_HOST, () => {
 				logServerUrl();
 			})
