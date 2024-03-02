@@ -33,6 +33,7 @@ module.exports = (env, argv) => {
 		},
 		plugins: [
 			new NodemonPlugin({
+				script: "./scripts/serveWithProxy.js",
 				watch: path.resolve("./scripts"),
 				ignore: ["*.js.map"],
 				args: ["webpack --watch"]
