@@ -1,9 +1,14 @@
 import colors from "colors";
-import { WEB_APP_DEV_PROXY_URL } from "../../modules/constants";
+import {
+	IS_WEBPACK_WATCH,
+	WEB_APP_DEV_PROXY_URL
+} from "../../modules/constants";
 import { getStatusDescription } from "./utils";
 
 export const logServerStartup = () => {
-	console.log("Starting proxy server for web app development ...\n");
+	console.log(
+		`${IS_WEBPACK_WATCH ? "\n" : ""}Starting proxy server for web app development ...\n`
+	);
 };
 
 export const logServerShutdown = () => {
@@ -22,7 +27,8 @@ export const logServerError = (err: NodeJS.ErrnoException) => {
 			break;
 		default:
 			errMsg =
-				err.stack?.split("\n")[0] || `Error: ${err.code}: ${err.message}`;
+				err.stack?.split("\n")[0] ||
+				`Error: ${err.code}: ${err.message}`;
 	}
 
 	console.log(colors.red(`  ➜ ${errMsg}\n`));
@@ -45,7 +51,9 @@ export const logIncomingRequest = (url: string, method?: string) => {
 				: colors.green("incoming request ➜ ")) +
 			colors.grey(
 				`URL: ${(isPreflight ? colors.yellow : colors.green)(url)}` +
-					(!isPreflight ? ` Method: ${colors.green(method || "UNKNOWN")}` : "")
+					(!isPreflight
+						? ` Method: ${colors.green(method || "UNKNOWN")}`
+						: "")
 			)
 	);
 };

@@ -1,5 +1,7 @@
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
+const NodemonPlugin = require("nodemon-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = (env, argv) => {
 	const { mode } = argv;
@@ -28,6 +30,18 @@ module.exports = (env, argv) => {
 		output: {
 			path: path.resolve(__dirname, "scripts"),
 			filename: "[name].js"
-		}
+		},
+		plugins: [
+			new NodemonPlugin({
+				watch: path.resolve("./scripts"),
+				ignore: ["*.js.map"],
+				args: ["webpack --watch"]
+			}),
+			new CleanWebpackPlugin({
+				protectWebpackAssets: false,
+				cleanOnceBeforeBuildPatterns: ["**/*.js.map"],
+				verbose: isProduction
+			})
+		]
 	};
 };
