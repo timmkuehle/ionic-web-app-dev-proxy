@@ -6,7 +6,8 @@ export const IS_LOCAL_WEB_APP =
 	!Capacitor.isNativePlatform() &&
 	(typeof ENV.MODE === "undefined" || ENV.MODE === "development");
 
-export const IS_WEBPACK_WATCH = process.argv.includes("webpack --watch");
+export const IS_WEBPACK_WATCH =
+	typeof process !== "undefined" && process.argv.includes("webpack --watch");
 
 export const WEB_APP_DEV_PROXY_HOST = "localhost";
 
