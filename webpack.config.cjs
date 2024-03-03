@@ -11,8 +11,12 @@ module.exports = (env, argv) => {
 	return {
 		mode,
 		devtool,
-		target: "node",
-		externals: [nodeExternals()],
+		externalsPresets: { node: true },
+		externals: [
+			nodeExternals({
+				importType: "module"
+			})
+		],
 		entry: {
 			startServer: "./src/startServer.ts",
 			serveWithProxy: "./src/serveWithProxy.ts"
@@ -43,6 +47,9 @@ module.exports = (env, argv) => {
 				cleanOnceBeforeBuildPatterns: ["**/*.js.map"],
 				verbose: isProduction
 			})
-		]
+		],
+		experiments: {
+			outputModule: true
+		}
 	};
 };
