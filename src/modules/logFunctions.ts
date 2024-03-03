@@ -81,7 +81,7 @@ export const logRequestResponse = (
 
 export const logIonicServeStart = () => {
 	console.log(
-		`${IS_WEBPACK_WATCH ? "\n" : ""}Starting development server ...`
+		`${IS_WEBPACK_WATCH ? "\n" : ""}Starting Ionic app development server ...`
 	);
 };
 
