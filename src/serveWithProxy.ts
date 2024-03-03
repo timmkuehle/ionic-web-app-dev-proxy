@@ -1,5 +1,7 @@
 import { exec } from "child_process";
-import { logIonicServeError } from "./modules/logFunctions";
+import { logIonicServeError, logIonicServeStart } from "./modules/logFunctions";
+
+logIonicServeStart();
 
 exec("ionic serve", (err, stdout, stderr) => {
 	if (err) {
