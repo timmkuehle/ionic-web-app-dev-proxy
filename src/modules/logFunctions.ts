@@ -4,6 +4,7 @@ import {
 	WEB_APP_DEV_PROXY_URL
 } from "../../modules/constants";
 import { getStatusDescription } from "./utils";
+import { ExecException } from "child_process";
 
 export const logServerStartup = () => {
 	console.log(
@@ -75,5 +76,19 @@ export const logRequestResponse = (
 							(errorMessage ? `: ${errorMessage}` : "")
 					)
 				: colors.green(`${status} - ${getStatusDescription(status)}`))
+	);
+};
+
+export const logIonicServeStart = () => {
+	console.log("Starting development server ...");
+};
+
+export const logIonicServeError = (err: ExecException) => {
+	console.log(
+		colors.red("  ➜ Error: Unable to serve Ionic App") +
+			colors.cyan(
+				`\n\nNote: The ${colors.yellow("serveWithProxy")} script is supposed to run in an Ionic project directory.\nPlease make sure that the Ionic CLI is installed on your system and that \nthis script is executed in the root directory of your Ionic project.\nIf you intend to run the proxy server only, use the ${colors.yellow("startServer")} script.\nFor more information, read the original error message below:\n\n`
+			) +
+			colors.red(err.message)
 	);
 };
