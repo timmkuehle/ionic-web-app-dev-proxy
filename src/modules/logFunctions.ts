@@ -40,7 +40,7 @@ const baseLog =
 		new Date().toLocaleTimeString(
 			Intl.DateTimeFormat().resolvedOptions().locale
 		)
-	) + colors.cyan(" [webAppDevProxy] ");
+	) + colors.cyan.bold(" [webAppDevProxy] ");
 
 export const logIncomingRequest = (url: string, method?: string) => {
 	const isPreflight = method === "OPTIONS";
@@ -81,13 +81,19 @@ export const logRequestResponse = (
 
 export const logIonicServeStart = () => {
 	console.log(
-		`${IS_WEBPACK_WATCH ? "\n" : ""}Starting Ionic app development server ...`
+		`${IS_WEBPACK_WATCH ? "\n" : ""}Starting Ionic app development server ...\n`
 	);
 };
 
-export const logIonicServeError = (err: ExecException) => {
+export const logIonicServeAddress = (address: string) => {
+	console.log(colors.green(`  ➜ ${address}\n`));
+};
+
+export const logIonicServeError = (
+	err: ExecException | { message: string }
+) => {
 	console.log(
-		colors.red("\n  ➜ Error: Unable to serve Ionic App") +
+		colors.red("  ➜ Error: Unable to serve Ionic App") +
 			colors.cyan(
 				`\n\nNote: The ${colors.yellow("serveWithProxy")} script is supposed to run in an Ionic project directory.\nPlease make sure that the Ionic CLI is installed on your system and that \nthis script is executed in the root directory of your Ionic project.\nIf you intend to run the proxy server only, use the ${colors.yellow("startServer")} script.\nFor more information, read the original error message below.\n\n`
 			) +
