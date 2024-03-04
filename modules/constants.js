@@ -18,3 +18,7 @@ export const WEB_APP_DEV_PROXY_URL = `http://${WEB_APP_DEV_PROXY_HOST}:${WEB_APP
 export const allowedOrigins = [WEB_APP_DEV_PROXY_URL, "http://localhost:8100"];
 
 export const MAX_REQUEST_BODY_SIZE_MB = 2;
+
+export const IONIC_DEV_SERVER_RUNNING_REGEX = /Development server running!/;
+
+export const IONIC_DEV_SERVER_LOCAL_REGEX = /Local: |\n/g;
