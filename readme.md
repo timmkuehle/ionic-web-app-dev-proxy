@@ -21,7 +21,7 @@ Adjust the dev script in your app's package.json to look like this (remember to 
 
 ```json
 "scripts": {
-	"dev": "cd scripts/ionic-web-app-dev-proxy && npm run-script serveWithProxy",
+  "dev": "cd scripts/ionic-web-app-dev-proxy && npm run-script serveWithProxy",
 }
 ```
 
