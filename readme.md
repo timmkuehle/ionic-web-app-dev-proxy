@@ -33,24 +33,22 @@ In your app you can import the `adaptFetchUrl` function and use it to wrap your 
 import { adaptFetchUrl } from "../scripts/ionic-web-app-dev-proxy";
 
 try {
-  const response = await fetch(
-    adaptFetchUrl("https://api.example.com/users"),
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        surname: "Jane",
-        last_name: "Doe",
-        date_of_birth: {
-          year: "1969",
-          month: "11",
-          day: "15"
-        }
-      })
-    }
-  );
+  const response = await fetch(adaptFetchUrl("https://api.example.com/users"), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      surname: "Jane",
+      last_name: "Doe",
+      date_of_birth: {
+        year: "1969",
+        month: "11",
+        day: "15"
+      }
+    })
+  });
+
   console.log(`Response: ${await response.json()}`);
 } catch (error) {
   console.log(`Error while fetching data: ${error}`);
