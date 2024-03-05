@@ -3,7 +3,7 @@ import {
 	IONIC_DEV_SERVER_HMR_REGEX,
 	IS_WEBPACK_WATCH,
 	WEB_APP_DEV_PROXY_URL
-} from "../../modules/constants";
+} from "../../constants";
 import { getStatusDescription } from "./utils";
 import { ExecException } from "child_process";
 

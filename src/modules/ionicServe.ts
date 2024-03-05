@@ -1,7 +1,7 @@
 import { ChildProcessWithoutNullStreams, ExecException } from "child_process";
 import { logIonicServeError, logIonicServeShutdown } from "./logFunctions";
 import { serverAddressIsValid } from "./validation";
-import { IONIC_DEV_SERVER_LOCAL_REGEX } from "../../modules/constants";
+import { IONIC_DEV_SERVER_LOCAL_REGEX } from "../../constants";
 
 export const getIonicServeAddress = (
 	data: string,

@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { allowedOrigins } from "../../modules/constants";
+import { allowedOrigins } from "../../constants";
 import { setHeaders } from "./headers";
 import { resolveRequest, resolveWithError } from "./resolve";
 
@@ -15,12 +15,12 @@ export const runPreflightCheck = (
 	if (!origin) {
 		error = {
 			code: 400,
-			message: "Proxy server is unable to determine request origin",
+			message: "Proxy server is unable to determine request origin"
 		};
 	} else if (!allowedOrigins.includes(origin)) {
 		error = {
 			code: 403,
-			message: `Origin [${origin}] is not allowed to access proxy server`,
+			message: `Origin [${origin}] is not allowed to access proxy server`
 		};
 	}
 

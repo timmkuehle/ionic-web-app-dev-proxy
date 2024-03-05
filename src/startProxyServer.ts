@@ -1,8 +1,5 @@
 import http from "http";
-import {
-	WEB_APP_DEV_PROXY_HOST,
-	WEB_APP_DEV_PROXY_PORT
-} from "../modules/constants";
+import { WEB_APP_DEV_PROXY_HOST, WEB_APP_DEV_PROXY_PORT } from "../constants";
 import { checkEnv } from "./modules/utils";
 import { runPreflightCheck } from "./modules/preflight";
 import { setHeaders } from "./modules/headers";

@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { MAX_REQUEST_BODY_SIZE_MB } from "../../modules/constants";
+import { MAX_REQUEST_BODY_SIZE_MB } from "../../constants";
 import { resolveRequest, resolveWithError } from "./resolve";
 
 export const forwardRequest = (
@@ -20,7 +20,13 @@ export const forwardRequest = (
 				MAX_REQUEST_BODY_SIZE_MB +
 				"MB)";
 
-			resolveWithError(req, res, 413, errMsg, `HTTP Error: 413: ${errMsg}`);
+			resolveWithError(
+				req,
+				res,
+				413,
+				errMsg,
+				`HTTP Error: 413: ${errMsg}`
+			);
 			return;
 		}
 
@@ -32,9 +38,9 @@ export const forwardRequest = (
 			const response = await fetch(url, {
 				method: req.method,
 				headers: {
-					"Content-Type": reqContentType,
+					"Content-Type": reqContentType
 				},
-				body: reqBody,
+				body: reqBody
 			});
 
 			const resContentType =
@@ -47,12 +53,13 @@ export const forwardRequest = (
 
 			resolveRequest(res, response.status, {
 				contentType: resContentType,
-				data,
+				data
 			});
 		} catch (err) {
 			const { stack, code, message } = err as NodeJS.ErrnoException;
 
-			const errMsg = stack?.split("\n")[0] || `Error: ${code}: ${message}`;
+			const errMsg =
+				stack?.split("\n")[0] || `Error: ${code}: ${message}`;
 
 			resolveWithError(req, res, 500, errMsg, stack);
 		}

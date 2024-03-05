@@ -1,6 +1,6 @@
 import { spawn, fork } from "child_process";
 import { checkEnv } from "./modules/utils";
-import { IONIC_DEV_SERVER_RUNNING_REGEX } from "../modules/constants";
+import { IONIC_DEV_SERVER_RUNNING_REGEX } from "../constants";
 import { getIonicServeAddress, shutdownIonicServe } from "./modules/ionicServe";
 import {
 	logHmrUpdate,
