@@ -21,7 +21,11 @@ export const logServerUrl = () => {
 	console.log(`${colors.green(`  ➜ ${WEB_APP_DEV_PROXY_URL}`)}\n`);
 };
 
-export const logServerError = (err: NodeJS.ErrnoException) => {
+export const logServerError = (
+	err:
+		| NodeJS.ErrnoException
+		| { code: string; message: string; stack?: string }
+) => {
 	let errMsg;
 	switch (err.code) {
 		case "EADDRINUSE":
@@ -33,7 +37,7 @@ export const logServerError = (err: NodeJS.ErrnoException) => {
 				`Error: ${err.code}: ${err.message}`;
 	}
 
-	console.log(colors.red(`  ➜ ${errMsg}\n`));
+	console.log(colors.red(`  ➜ ${errMsg}`));
 };
 
 const baseLog =
