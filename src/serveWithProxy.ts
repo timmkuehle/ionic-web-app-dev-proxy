@@ -1,17 +1,26 @@
-import path from "path";
 import { spawn, fork } from "child_process";
 import {
+	logHmrUpdate,
 	logIonicServeAddress,
+	logIonicServeError,
 	logIonicServeStart
 } from "./modules/logFunctions";
-import { getIonicServeAddress } from "./modules/ionicServe";
+import { getIonicServeAddress, shutdownIonicServe } from "./modules/ionicServe";
 import { IONIC_DEV_SERVER_RUNNING_REGEX } from "../modules/constants";
 
 logIonicServeStart();
 
 const ionicServe = spawn("ionic", ["serve", "--no-open"]);
 
-ionicServe.stdout?.on("data", (data) => {
+ionicServe.on("error", (error) => {
+	logIonicServeError(error);
+});
+
+ionicServe.stderr.on("data", (error) => {
+	logIonicServeError({ message: error.toString() });
+});
+
+ionicServe.stdout.on("data", (data) => {
 	const stringifiedData = data.toString();
 
 	if (IONIC_DEV_SERVER_RUNNING_REGEX.test(data)) {
@@ -24,18 +33,20 @@ ionicServe.stdout?.on("data", (data) => {
 
 		logIonicServeAddress(ionicServeAddress);
 
-		const proxyServer = fork("./scripts/startServer.js");
+		fork("scripts/startServer.js");
 
 		return;
 	}
 
-	if (/hmr update/.test(stringifiedData)) {
-		console.log(stringifiedData.replace(/^\[vite\] |\n/g, ""));
-
-		return;
-	}
+	logHmrUpdate(stringifiedData);
 });
 
-ionicServe.on("exit", () => {
-	console.log("\nShutting down Ionic app development server ...");
+process.on("SIGTERM", () => {
+	shutdownIonicServe(ionicServe);
+	process.exit(0);
+});
+
+process.on("SIGINT", () => {
+	shutdownIonicServe(ionicServe);
+	process.exit(0);
 });
