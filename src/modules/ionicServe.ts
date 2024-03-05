@@ -1,5 +1,5 @@
 import { ChildProcessWithoutNullStreams, ExecException } from "child_process";
-import { logIonicServeError } from "./logFunctions";
+import { logIonicServeError, logIonicServeShutdown } from "./logFunctions";
 import { serverAddressIsValid } from "./validation";
 import { IONIC_DEV_SERVER_LOCAL_REGEX } from "../../modules/constants";
 
@@ -41,6 +41,8 @@ export const shutdownIonicServe = (
 	if (error) {
 		logIonicServeError(error);
 	}
+
+	logIonicServeShutdown();
 
 	if (!ionicServeProcess.killed) {
 		ionicServeProcess.kill("SIGTERM");
