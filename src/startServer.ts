@@ -3,6 +3,7 @@ import {
 	WEB_APP_DEV_PROXY_HOST,
 	WEB_APP_DEV_PROXY_PORT
 } from "../modules/constants";
+import { checkEnv } from "./modules/utils";
 import { runPreflightCheck } from "./modules/preflight";
 import { setHeaders } from "./modules/headers";
 import { urlIsValid } from "./modules/validation";
@@ -15,43 +16,43 @@ import {
 	logServerShutdown
 } from "./modules/logFunctions";
 
-if (typeof process !== "undefined") {
-	logServerStartup();
+checkEnv();
 
-	try {
-		http.createServer((req, res) => {
-			const targetUrl = req.url?.replace(/^\//, "") || "/";
+logServerStartup();
 
-			logIncomingRequest(targetUrl, req.method);
+try {
+	http.createServer((req, res) => {
+		const targetUrl = req.url?.replace(/^\//, "") || "/";
 
-			if (req.method === "OPTIONS") {
-				runPreflightCheck(req, res);
-				return;
-			}
+		logIncomingRequest(targetUrl, req.method);
 
-			setHeaders(res, req.headers.origin);
+		if (req.method === "OPTIONS") {
+			runPreflightCheck(req, res);
+			return;
+		}
 
-			if (!urlIsValid(req, res, targetUrl)) return;
+		setHeaders(res, req.headers.origin);
 
-			forwardRequest(req, res, targetUrl);
+		if (!urlIsValid(req, res, targetUrl)) return;
+
+		forwardRequest(req, res, targetUrl);
+	})
+		.listen(WEB_APP_DEV_PROXY_PORT, WEB_APP_DEV_PROXY_HOST, () => {
+			logServerUrl();
 		})
-			.listen(WEB_APP_DEV_PROXY_PORT, WEB_APP_DEV_PROXY_HOST, () => {
-				logServerUrl();
-			})
-			.on("error", (err) => {
-				logServerError(err);
-			});
-	} catch (err) {
-		logServerError(err as NodeJS.ErrnoException);
-	}
-
-	process.on("SIGINT", () => {
-		logServerShutdown();
-		process.exit(0);
-	});
-
-	process.on("SIGTERM", () => {
-		logServerShutdown();
-		process.exit(0);
-	});
+		.on("error", (err) => {
+			logServerError(err);
+		});
+} catch (err) {
+	logServerError(err as NodeJS.ErrnoException);
 }
+
+process.on("SIGINT", () => {
+	logServerShutdown();
+	process.exit(0);
+});
+
+process.on("SIGTERM", () => {
+	logServerShutdown();
+	process.exit(0);
+});
