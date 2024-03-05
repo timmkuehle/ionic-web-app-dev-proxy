@@ -7,7 +7,7 @@
 	"scripts": {
 		"start": "webpack --watch --mode development",
 		"build": "webpack --mode production",
-		"startProxyServer": "node scripts/startServer",
+		"startProxyServer": "node scripts/startProxyServer",
 		"serveWithProxy": "node scripts/serveWithProxy"
 	},
 	"repository": {
