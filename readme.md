@@ -9,12 +9,14 @@ This package attempts to cover that oversight, by providing an easy-to-use, zero
 
 ## Installation
 
-Clone the repo to a subdirectory of your Ionic app directory.
+Clone the repo to a subdirectory of your Ionic app directory:
 
-```
+```shell
 git clone https://github.com/timmkuehle/ionic-web-app-dev-proxy.git
+```
 
-// or
+Or:
 
+```shell
 git clone git@github.com:timmkuehle/ionic-web-app-dev-proxy.git
 ```
