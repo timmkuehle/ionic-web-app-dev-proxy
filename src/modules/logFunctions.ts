@@ -3,7 +3,7 @@ import {
 	IONIC_DEV_SERVER_HMR_REGEX,
 	IS_WEBPACK_WATCH,
 	WEB_APP_DEV_PROXY_URL
-} from "../../modules/constants";
+} from "../../constants";
 import { getStatusDescription } from "./utils";
 import { ExecException } from "child_process";
 
@@ -100,7 +100,7 @@ export const logIonicServeError = (
 	console.log(
 		colors.red("  ➜ Error: Unable to serve Ionic App") +
 			colors.cyan(
-				`\n\nNote: The ${colors.yellow("serveWithProxy")} script is supposed to run in an Ionic project directory.\nPlease make sure that the Ionic CLI is installed on your system and that \nthis script is executed in the root directory of your Ionic project.\nIf you intend to run the proxy server only, use the ${colors.yellow("startServer")} script.\nFor more information, read the original error message below.\n\n`
+				`\n\nNote: The ${colors.yellow("serveWithProxy")} script is supposed to run in an Ionic project directory.\nPlease make sure that the Ionic CLI is installed on your system and that \nthis script is executed in the root directory of your Ionic project.\nIf you intend to run the proxy server only, use the ${colors.yellow("startProxyServer")} script.\nFor more information, read the original error message below.\n\n`
 			) +
 			colors.red(err.message)
 	);
