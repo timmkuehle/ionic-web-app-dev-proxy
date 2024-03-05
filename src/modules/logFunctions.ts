@@ -1,5 +1,6 @@
 import colors from "colors";
 import {
+	IONIC_DEV_SERVER_HMR_REGEX,
 	IS_WEBPACK_WATCH,
 	WEB_APP_DEV_PROXY_URL
 } from "../../modules/constants";
@@ -85,6 +86,10 @@ export const logIonicServeStart = () => {
 	);
 };
 
+export const logIonicServeShutdown = () => {
+	console.log("Shutting down Ionic app development server ...\n");
+};
+
 export const logIonicServeAddress = (address: string) => {
 	console.log(colors.green(`  ➜ ${address}\n`));
 };
@@ -99,4 +104,12 @@ export const logIonicServeError = (
 			) +
 			colors.red(err.message)
 	);
+};
+
+export const logHmrUpdate = (data: string) => {
+	if (!IONIC_DEV_SERVER_HMR_REGEX.test(data)) {
+		return;
+	}
+
+	console.log(data.replace(/^\[(vite|webpack)\] |\n/g, ""));
 };
