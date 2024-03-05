@@ -18,7 +18,7 @@ module.exports = (env, argv) => {
 			})
 		],
 		entry: {
-			startServer: "./src/startServer.ts",
+			startProxyServer: "./src/startProxyServer.ts",
 			serveWithProxy: "./src/serveWithProxy.ts"
 		},
 		module: {

@@ -36,7 +36,7 @@ ionicServe.stdout.on("data", (data) => {
 
 		logIonicServeAddress(ionicServeAddress);
 
-		fork("scripts/startServer.js");
+		fork("scripts/startProxyServer.js");
 
 		return;
 	}
