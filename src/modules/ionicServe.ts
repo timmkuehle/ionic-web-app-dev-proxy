@@ -1,5 +1,9 @@
 import { ChildProcessWithoutNullStreams, ExecException } from "child_process";
-import { logIonicServeError, logIonicServeShutdown } from "./logFunctions";
+import {
+	logIonicServeError,
+	logIonicServeShutdown,
+	logServerError
+} from "./logFunctions";
 import { serverAddressIsValid } from "./validation";
 import { IONIC_DEV_SERVER_LOCAL_REGEX } from "../../constants";
 
@@ -18,20 +22,46 @@ export const getIonicServeAddress = (
 		return null;
 	}
 
-	const ionicDevServerUrl = ionicDevServerUrlMatches[0].replace(
+	const ionicServeAddress = ionicDevServerUrlMatches[0].replace(
 		IONIC_DEV_SERVER_LOCAL_REGEX,
 		""
 	);
 
-	if (!serverAddressIsValid(ionicDevServerUrl)) {
+	if (!serverAddressIsValid(ionicServeAddress)) {
 		shutdownIonicServe(ionicServeProcess, {
-			message: `Error: Ionic app development server address [${ionicDevServerUrl}] is invalid`
+			message: `Error: [${ionicServeAddress}] is not a valid Ionic app development server address`
 		});
 
 		return null;
 	}
 
-	return ionicDevServerUrl;
+	return ionicServeAddress;
+};
+
+export const getIonicServeAddressFromArgv = () => {
+	const { argv } = process;
+
+	if (argv.length <= 2 || !argv.includes("--ionic-serve-address")) {
+		logServerError({
+			code: "NOIONADDRARG",
+			message: "Missing Argument: No Ionic serve address provided"
+		});
+
+		return null;
+	}
+
+	const ionicServeAddress = argv[argv.indexOf("--ionic-serve-address") + 1];
+
+	if (!serverAddressIsValid(ionicServeAddress)) {
+		logServerError({
+			code: "INVIONADDRARG",
+			message: `Invalid Argument: [${ionicServeAddress}] is not a valid Ionic app development server address`
+		});
+
+		return null;
+	}
+
+	return ionicServeAddress;
 };
 
 export const shutdownIonicServe = (
