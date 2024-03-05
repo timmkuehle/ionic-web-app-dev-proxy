@@ -1,6 +1,6 @@
 {
 	"root": true,
-	"ignorePatterns": ["node_modules", "server.js"],
+	"ignorePatterns": ["node_modules", "scripts"],
 	"env": {
 		"browser": true,
 		"node": true

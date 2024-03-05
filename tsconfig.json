@@ -1,6 +1,6 @@
 {
 	"include": ["**/*", "index.d.ts"],
-	"exclude": ["node_modules", "server.js"],
+	"exclude": ["node_modules", "scripts"],
 	"compilerOptions": {
 		"outDir": "ts",
 		"strict": true,
