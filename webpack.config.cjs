@@ -40,7 +40,7 @@ module.exports = (env, argv) => {
 				script: "./scripts/serveWithProxy.js",
 				watch: path.resolve("./scripts"),
 				ignore: ["*.js.map"],
-				args: ["webpack --watch"]
+				args: ["--webpack-watch"]
 			}),
 			new CleanWebpackPlugin({
 				protectWebpackAssets: false,
