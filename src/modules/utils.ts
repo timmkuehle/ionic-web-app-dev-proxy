@@ -1,3 +1,11 @@
+export const checkEnv = () => {
+	if (typeof process === "undefined") {
+		throw new Error(
+			"Error: Incompatible environment: This script is supposed to run in a nodeJS environment"
+		);
+	}
+};
+
 export const getStatusDescription = (status: number) => {
 	switch (status) {
 		case 200:

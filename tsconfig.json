@@ -1,5 +1,5 @@
 {
-	"include": ["**/*", "index.d.ts"],
+	"include": ["**/*", "index.d.ts", ".eslintrc.cjs"],
 	"exclude": ["node_modules", "scripts"],
 	"compilerOptions": {
 		"outDir": "ts",

@@ -11,9 +11,16 @@ module.exports = (env, argv) => {
 	return {
 		mode,
 		devtool,
-		target: "node",
-		externals: [nodeExternals()],
-		entry: "./src/server.ts",
+		externalsPresets: { node: true },
+		externals: [
+			nodeExternals({
+				importType: "module"
+			})
+		],
+		entry: {
+			startServer: "./src/startServer.ts",
+			serveWithProxy: "./src/serveWithProxy.ts"
+		},
 		module: {
 			rules: [
 				{
@@ -26,10 +33,11 @@ module.exports = (env, argv) => {
 		resolve: { extensions: ["", ".js", ".ts"] },
 		output: {
 			path: path.resolve(__dirname, "scripts"),
-			filename: "startServer.js"
+			filename: "[name].js"
 		},
 		plugins: [
 			new NodemonPlugin({
+				script: "./scripts/serveWithProxy.js",
 				watch: path.resolve("./scripts"),
 				ignore: ["*.js.map"],
 				args: ["webpack --watch"]
@@ -39,6 +47,9 @@ module.exports = (env, argv) => {
 				cleanOnceBeforeBuildPatterns: ["**/*.js.map"],
 				verbose: isProduction
 			})
-		]
+		],
+		experiments: {
+			outputModule: true
+		}
 	};
 };
