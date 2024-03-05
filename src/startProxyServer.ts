@@ -8,14 +8,17 @@ import { forwardRequest } from "./modules/request";
 import {
 	logServerStartup,
 	logServerUrl,
-	logServerError,
 	logIncomingRequest,
 	logServerShutdown
 } from "./modules/logFunctions";
+import { getIonicServeAddressFromArgv } from "./modules/ionicServe";
+import { shutdownServer } from "./modules/proxyServer";
 
 checkEnv();
 
 logServerStartup();
+
+let ionicServeAdress: string | null;
 
 try {
 	http.createServer((req, res) => {
@@ -24,7 +27,7 @@ try {
 		logIncomingRequest(targetUrl, req.method);
 
 		if (req.method === "OPTIONS") {
-			runPreflightCheck(req, res);
+			runPreflightCheck(req, res, ionicServeAdress);
 			return;
 		}
 
@@ -35,21 +38,19 @@ try {
 		forwardRequest(req, res, targetUrl);
 	})
 		.listen(WEB_APP_DEV_PROXY_PORT, WEB_APP_DEV_PROXY_HOST, () => {
+			ionicServeAdress = getIonicServeAddressFromArgv();
+
+			if (!ionicServeAdress) shutdownServer(undefined, 1);
+
 			logServerUrl();
 		})
 		.on("error", (err) => {
-			logServerError(err);
+			shutdownServer(err);
 		});
 } catch (err) {
-	logServerError(err as NodeJS.ErrnoException);
+	shutdownServer(err as NodeJS.ErrnoException);
 }
 
-process.on("SIGINT", () => {
+process.on("exit", () => {
 	logServerShutdown();
-	process.exit(0);
-});
-
-process.on("SIGTERM", () => {
-	logServerShutdown();
-	process.exit(0);
 });
