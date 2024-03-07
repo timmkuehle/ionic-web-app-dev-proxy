@@ -8,6 +8,7 @@ import {
 	logIonicServeError,
 	logIonicServeStart
 } from "./modules/logFunctions";
+import { exitScriptOnProxyError } from "./modules/proxyServer";
 
 checkEnv();
 
@@ -36,7 +37,12 @@ ionicServe.stdout.on("data", (data) => {
 
 		logIonicServeAddress(ionicServeAddress);
 
-		fork("scripts/startProxyServer.js");
+		const proxyServer = fork("scripts/startProxyServer.js", [
+			"--ionic-serve-address",
+			ionicServeAddress
+		]);
+
+		exitScriptOnProxyError(proxyServer, ionicServe);
 
 		return;
 	}
