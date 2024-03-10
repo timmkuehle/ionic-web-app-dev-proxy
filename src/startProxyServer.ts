@@ -51,6 +51,14 @@ try {
 	shutdownServer(err as NodeJS.ErrnoException);
 }
 
+process.on("SIGTERM", () => {
+	process.exit(0);
+});
+
+process.on("SIGINT", () => {
+	process.exit(0);
+});
+
 process.on("exit", () => {
 	logServerShutdown();
 });
