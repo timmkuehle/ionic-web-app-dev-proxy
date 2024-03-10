@@ -72,7 +72,7 @@ export const shutdownIonicServe = (
 		logIonicServeError(error);
 	}
 
-	logIonicServeShutdown(true);
+	logIonicServeShutdown();
 
 	if (!ionicServeProcess.killed) {
 		ionicServeProcess.kill("SIGTERM");
