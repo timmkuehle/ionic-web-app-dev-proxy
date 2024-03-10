@@ -41,7 +41,7 @@ export const getIonicServeAddress = (
 export const getIonicServeAddressFromArgv = () => {
 	const { argv } = process;
 
-	if (argv.length <= 2 || !argv.includes("--ionic-serve-address")) {
+	if (argv.length <= 2) {
 		logServerError({
 			code: "NOIONADDRARG",
 			message: "Missing Argument: No Ionic serve address provided"
@@ -50,7 +50,7 @@ export const getIonicServeAddressFromArgv = () => {
 		return null;
 	}
 
-	const ionicServeAddress = argv[argv.indexOf("--ionic-serve-address") + 1];
+	const ionicServeAddress = argv[2];
 
 	if (!serverAddressIsValid(ionicServeAddress)) {
 		logServerError({
