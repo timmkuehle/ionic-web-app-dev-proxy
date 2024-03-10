@@ -14,7 +14,7 @@ export const logServerStartup = () => {
 };
 
 export const logServerShutdown = () => {
-	console.log("\nShutting down proxy server for web app development ...\n");
+	console.log(`\nShutting down proxy server for web app development ...\n`);
 };
 
 export const logServerUrl = () => {
@@ -90,10 +90,8 @@ export const logIonicServeStart = () => {
 	);
 };
 
-export const logIonicServeShutdown = (isManualShutdown?: true) => {
-	console.log(
-		`${isManualShutdown ? "\n" : ""}Shutting down Ionic app development server ...\n`
-	);
+export const logIonicServeShutdown = () => {
+	console.log("Shutting down Ionic app development server ...\n");
 };
 
 export const logIonicServeAddress = (address: string) => {
