@@ -90,8 +90,10 @@ export const logIonicServeStart = () => {
 	);
 };
 
-export const logIonicServeShutdown = () => {
-	console.log("Shutting down Ionic app development server ...\n");
+export const logIonicServeShutdown = (isManualShutdown?: true) => {
+	console.log(
+		`${isManualShutdown ? "\n" : ""}Shutting down Ionic app development server ...\n`
+	);
 };
 
 export const logIonicServeAddress = (address: string) => {
