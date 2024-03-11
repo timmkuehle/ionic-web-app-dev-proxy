@@ -38,7 +38,11 @@ export const logProxyServerError = (
 				`Error: ${err.code}: ${err.message}`;
 	}
 
-	console.log(colors.red(`  ➜ ${errMsg}`));
+	errMsg = errMsg.replace(/\[[^\]]+\]/g, (match) =>
+		colors.yellow(match.replace(/[[\]]/g, ""))
+	);
+
+	console.log(colors.red(`  ➜ ${errMsg}\n`));
 };
 
 const baseLog =
