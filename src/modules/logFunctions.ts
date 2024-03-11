@@ -14,8 +14,19 @@ export const logProxyServerStartup = () => {
 	);
 };
 
-export const logProxyServerShutdown = () => {
-	console.log(`\nShutting down proxy server for web app development ...\n`);
+export const logProxyServerShutdown = (isRunning?: boolean, err?: Error) => {
+	if (!isRunning) {
+		console.log("Proxy server is not running\n");
+		return;
+	}
+
+	console.log(
+		"Shutting down proxy server for web app development ... " +
+			(err
+				? colors.red(`Error: ${err?.message}`)
+				: colors.green("Success")) +
+			"\n"
+	);
 };
 
 export const logProxyServerUrl = () => {
@@ -30,7 +41,7 @@ export const logProxyServerError = (
 	let errMsg;
 	switch (err.code) {
 		case "EADDRINUSE":
-			errMsg = `Error: listen EADDRINUSE: ${WEB_APP_DEV_PROXY_URL} is already in use.`;
+			errMsg = `Error: listen EADDRINUSE: [${WEB_APP_DEV_PROXY_URL}] is already in use.`;
 			break;
 		default:
 			errMsg =
