@@ -53,9 +53,6 @@ export const startProxyServer = (ionicServeAddress: string) => {
 			})
 			.on("error", (err) => {
 				logProxyServerError(err, true);
-			})
-			.on("close", () => {
-				logProxyServerShutdown();
 			});
 	} catch (err) {
 		shutdownProxyServer(proxyServer, err as NodeJS.ErrnoException);
