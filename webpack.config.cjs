@@ -29,9 +29,6 @@ module.exports = (env, argv) => {
 			]
 		},
 		resolve: { extensions: ["", ".js", ".ts"] },
-		node: {
-			__dirname: false
-		},
 		output: {
 			path: path.resolve(__dirname),
 			filename: "exec.js"
