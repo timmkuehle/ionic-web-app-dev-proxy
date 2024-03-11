@@ -21,9 +21,7 @@ export const logProxyServerShutdown = (isRunning?: boolean, err?: Error) => {
 
 	console.log(
 		"Shutting down proxy server for web app development ... " +
-			(err
-				? colors.red(`\nError: ${err?.message}`)
-				: colors.green("Success")) +
+			(err ? colors.red(`\nError: ${err?.message}`) : "") +
 			"\n"
 	);
 };
@@ -106,7 +104,12 @@ export const logIonicServeStart = () => {
 	);
 };
 
-export const logIonicServeShutdown = () => {
+export const logIonicServeShutdown = (isRunning?: boolean) => {
+	if (isRunning === false) {
+		console.log("Ionic app development server is not running\n");
+		return;
+	}
+
 	console.log("Shutting down Ionic app development server ...\n");
 };
 
