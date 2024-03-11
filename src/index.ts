@@ -1,10 +1,7 @@
 #!/usr/bin/env node
 
-import { SCRIPTS } from "../constants";
 import { logExecError } from "./modules/logFunctions";
-import { __dirname } from "../constants";
-import path from "path";
-import { fork } from "child_process";
+import { startProxyServer } from "./modules/proxyServer";
 
 if (process.argv.length <= 2) {
 	logExecError({
@@ -16,15 +13,16 @@ if (process.argv.length <= 2) {
 	process.exit(1);
 }
 
-const execScript = process.argv[2];
+switch (process.argv[2]) {
+	case "startProxyServer":
+		startProxyServer("http://localhost:8100");
+		break;
+	default: {
+		logExecError({
+			code: "EINVARG",
+			message: `Invalid argument: [${process.argv[2]}] is not a valid command`
+		});
 
-if (!SCRIPTS.includes(execScript)) {
-	logExecError({
-		code: "EINVARG",
-		message: `Invalid argument: [${execScript}] is not a valid command`
-	});
-
-	process.exit(1);
+		process.exit(1);
+	}
 }
-
-fork(path.resolve(__dirname, `scripts/${execScript}.js`));
