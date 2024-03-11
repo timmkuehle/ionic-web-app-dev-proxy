@@ -8,21 +8,21 @@ import {
 import { getStatusDescription } from "./utils";
 import { ExecException } from "child_process";
 
-export const logServerStartup = () => {
+export const logProxyServerStartup = () => {
 	console.log(
 		`${IS_WEBPACK_WATCH ? "\n" : ""}Starting proxy server for web app development ...\n`
 	);
 };
 
-export const logServerShutdown = () => {
+export const logProxyServerShutdown = () => {
 	console.log(`\nShutting down proxy server for web app development ...\n`);
 };
 
-export const logServerUrl = () => {
+export const logProxyServerUrl = () => {
 	console.log(`${colors.green(`  ➜ ${WEB_APP_DEV_PROXY_URL}`)}\n`);
 };
 
-export const logServerError = (
+export const logProxyServerError = (
 	err:
 		| NodeJS.ErrnoException
 		| { code: string; message: string; stack?: string }
