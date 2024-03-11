@@ -57,13 +57,13 @@ switch (process.argv[2]) {
 process.on("SIGINT", () => {
 	process.stdout.write("\n");
 
-	if (proxyServer) shutdownProxyServer(proxyServer);
+	if (ionicServe) shutdownIonicServe(ionicServe, "SIGINT");
 
-	shutdownIonicServe(ionicServe, "SIGINT");
+	if (proxyServer) shutdownProxyServer(proxyServer);
 });
 
 process.on("SIGTERM", () => {
-	if (proxyServer) shutdownProxyServer(proxyServer);
+	if (ionicServe) shutdownIonicServe(ionicServe, "SIGTERM");
 
-	shutdownIonicServe(ionicServe, "SIGTERM");
+	if (proxyServer) shutdownProxyServer(proxyServer);
 });
