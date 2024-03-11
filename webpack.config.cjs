@@ -18,11 +18,7 @@ module.exports = (env, argv) => {
 				importType: "module"
 			})
 		],
-		entry: {
-			"scripts/startProxyServer": "./src/startProxyServer.ts",
-			"scripts/serveWithProxy": "./src/serveWithProxy.ts",
-			exec: "./src/exec.ts"
-		},
+		entry: "./src/index.ts",
 		module: {
 			rules: [
 				{
@@ -38,22 +34,19 @@ module.exports = (env, argv) => {
 		},
 		output: {
 			path: path.resolve(__dirname),
-			filename: "[name].js"
+			filename: "exec.js"
 		},
 		plugins: [
 			new NodemonPlugin({
-				script: "./scripts/serveWithProxy.js",
-				watch: path.resolve("./scripts"),
+				script: "./exec.js",
+				watch: path.resolve("./exec.js"),
 				ignore: ["*.js.map"],
-				args: ["--webpack-watch"]
+				args: ["serveWithProxy", "--webpack-watch"]
 			}),
 			new ShebangPlugin(),
 			new CleanWebpackPlugin({
 				protectWebpackAssets: false,
-				cleanOnceBeforeBuildPatterns: [
-					"./*.js.map",
-					"scripts/*.js.map"
-				],
+				cleanOnceBeforeBuildPatterns: ["./*.js.map"],
 				verbose: isProduction
 			})
 		],
