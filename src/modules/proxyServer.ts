@@ -1,5 +1,4 @@
 import http, { Server } from "http";
-import { ChildProcess, ChildProcessWithoutNullStreams } from "child_process";
 import {
 	WEB_APP_DEV_PROXY_HOST,
 	WEB_APP_DEV_PROXY_PORT
@@ -9,7 +8,6 @@ import { runPreflightCheck } from "./preflight";
 import { setHeaders } from "./headers";
 import { serverAddressIsValid, urlIsValid } from "./validation";
 import { forwardRequest } from "./request";
-import { shutdownIonicServe } from "./ionicServe";
 import {
 	logProxyServerStartup,
 	logProxyServerError,
@@ -76,18 +74,5 @@ export const shutdownProxyServer = (
 
 	proxyServer.close((err) => {
 		logProxyServerShutdown(true, err);
-	});
-};
-
-export const exitScriptOnProxyError = (
-	proxyProcess: ChildProcess,
-	ionicServeProcess: ChildProcessWithoutNullStreams
-) => {
-	proxyProcess.on("exit", () => {
-		if (proxyProcess.exitCode !== 0) {
-			shutdownIonicServe(ionicServeProcess);
-
-			process.exit(1);
-		}
 	});
 };
