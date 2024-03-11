@@ -1,6 +1,7 @@
+import path from "path";
 import { spawn, fork } from "child_process";
+import { IONIC_DEV_SERVER_RUNNING_REGEX, __dirname } from "../constants";
 import { checkEnv } from "./modules/utils";
-import { IONIC_DEV_SERVER_RUNNING_REGEX } from "../constants";
 import { getIonicServeAddress, shutdownIonicServe } from "./modules/ionicServe";
 import {
 	logHmrUpdate,
@@ -37,9 +38,10 @@ ionicServe.stdout.on("data", (data) => {
 
 		logIonicServeAddress(ionicServeAddress);
 
-		const proxyServer = fork("scripts/startProxyServer.js", [
-			ionicServeAddress
-		]);
+		const proxyServer = fork(
+			path.resolve(__dirname, "scripts/startProxyServer.js"),
+			[ionicServeAddress]
+		);
 
 		exitScriptOnProxyError(proxyServer, ionicServe);
 
