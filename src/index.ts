@@ -34,3 +34,7 @@ process.on("SIGINT", () => {
 
 	shutdownProxyServer(proxyServer);
 });
+
+process.on("SIGTERM", () => {
+	shutdownProxyServer(proxyServer);
+});
