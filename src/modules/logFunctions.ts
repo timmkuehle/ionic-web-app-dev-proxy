@@ -48,13 +48,11 @@ export const logProxyServerError = (
 				`Error: ${err.code}: ${err.message}`;
 	}
 
-	errMsg = errMsg.replace(/\[[^\]]+\]/g, (match) =>
-		colors.yellow(match.replace(/[[\]]/g, ""))
-	);
-
 	console.log(
 		colors.red(
-			(useBaseLog ? baseLog : "  ➜ ") + errMsg + (useBaseLog ? "" : "\n")
+			(useBaseLog ? baseLog : "  ➜ ") +
+				highlightLogs(errMsg) +
+				(useBaseLog ? "" : "\n")
 		)
 	);
 };
@@ -140,30 +138,19 @@ export const logHmrUpdate = (data: string) => {
 export const logExecError = (
 	err:
 		| NodeJS.ErrnoException
-		| { code: string; message: string; stack?: string }
+		| { code: string; message: string; stack?: string },
+	note?: string
 ) => {
 	console.log(
 		colors.red(
 			(err.stack?.split("\n")[0] ||
-				`Error: ${err.code}: ` +
-					err.message.replace(
-						/ionic-web-app-dev-proxy|\[[^\]]+\]/g,
-						(match) => colors.yellow(match.replace(/[[\]]/g, ""))
-					)) +
-				colors.cyan(
-					"\n\nNote: Valid commands are " +
-						SCRIPTS.reduce((prevScript, curScript, curIndex) => {
-							return (
-								(curIndex !== 0
-									? prevScript +
-										(curIndex < SCRIPTS.length - 1
-											? ", "
-											: " and ")
-									: "") + colors.yellow(curScript)
-							);
-						}, "") +
-						"\n"
-				)
+				`Error: ${err.code}: ${highlightLogs(err.message)}`) +
+				(note ? colors.cyan(`\n\n${highlightLogs(note)}\n`) : "")
 		)
 	);
 };
+
+const highlightLogs = (log: string) =>
+	log.replace(/ionic-web-app-dev-proxy|\[[^\]]+\]/g, (match) =>
+		colors.yellow(match.replace(/[[\]]/g, ""))
+	);
