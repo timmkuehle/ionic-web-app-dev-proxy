@@ -15,7 +15,8 @@ import {
 	logProxyServerError,
 	logProxyServerUrl,
 	logIncomingRequest,
-	logProxyServerShutdown
+	logProxyServerShutdown,
+	logIonicServeError
 } from "./logFunctions";
 
 export const startProxyServer = (ionicServeAddress: string) => {
@@ -56,13 +57,13 @@ export const startProxyServer = (ionicServeAddress: string) => {
 				}
 			)
 			.on("error", (err) => {
-				shutdownProxyServer(proxyServer, err);
+				logIonicServeError(err);
 			})
 			.on("close", () => {
 				logProxyServerShutdown();
 			});
 	} catch (err) {
-		logProxyServerError(err as NodeJS.ErrnoException);
+		shutdownProxyServer(proxyServer, err as NodeJS.ErrnoException);
 	}
 
 	return proxyServer;
@@ -70,17 +71,20 @@ export const startProxyServer = (ionicServeAddress: string) => {
 
 export const shutdownProxyServer = (
 	proxyServer: Server | null,
-	err?:
-		| NodeJS.ErrnoException
-		| { code: string; message: string; stack?: string }
+	err?: Error
 ) => {
 	if (err) {
 		logProxyServerError(err);
 	}
 
-	if (proxyServer && proxyServer.listening) {
-		proxyServer.close();
+	if (!proxyServer || !proxyServer.listening) {
+		logProxyServerShutdown(false);
+		return;
 	}
+
+	proxyServer.close((err) => {
+		logProxyServerShutdown(true, err);
+	});
 };
 
 export const exitScriptOnProxyError = (
