@@ -1,4 +1,10 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import { Capacitor } from "@capacitor/core";
+
+export const __filename = fileURLToPath(import.meta.url);
+
+export const __dirname = path.dirname(__filename);
 
 const ENV = typeof process !== "undefined" ? process?.env : import.meta.env;
 
@@ -24,3 +30,5 @@ export const IONIC_DEV_SERVER_RUNNING_REGEX = /Development server running!/;
 export const IONIC_DEV_SERVER_LOCAL_REGEX = /Local: |\n/g;
 
 export const IONIC_DEV_SERVER_HMR_REGEX = /hmr update/;
+
+export const SCRIPTS = ["serveWithProxy", "startProxyServer"];
