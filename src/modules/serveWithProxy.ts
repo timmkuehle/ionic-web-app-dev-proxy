@@ -1,12 +1,6 @@
-import {
-	spawn,
-	ChildProcessWithoutNullStreams,
-	ExecException
-} from "child_process";
-import {
-	IONIC_DEV_SERVER_LOCAL_REGEX,
-	IONIC_DEV_SERVER_RUNNING_REGEX
-} from "../../constants";
+import { spawn } from "child_process";
+import { Server } from "http";
+import { IONIC_DEV_SERVER_RUNNING_REGEX } from "../../constants";
 import { checkEnv } from "./utils";
 import {
 	logHmrUpdate,
@@ -15,8 +9,8 @@ import {
 	logIonicServeShutdown,
 	logIonicServeStart
 } from "./logFunctions";
-import { serverAddressIsValid } from "./validation";
-import { startProxyServer } from "./proxyServer";
+import { shutdownProxyServer, startProxyServer } from "./proxyServer";
+import { getIonicServeAddress, shutdownIonicServe } from "./ionicServe";
 
 export const serveWithProxy = () => {
 	checkEnv();
@@ -33,6 +27,7 @@ export const serveWithProxy = () => {
 		logIonicServeError({ message: err.toString() });
 	});
 
+	let proxyServer: Server | null = null;
 	ionicServe.stdout.on("data", (data) => {
 		const stringifiedData = data.toString();
 
@@ -46,10 +41,10 @@ export const serveWithProxy = () => {
 
 			logIonicServeAddress(ionicServeAddress);
 
-			const proxyServer = startProxyServer(ionicServeAddress);
+			proxyServer = startProxyServer(ionicServeAddress);
 
 			if (!proxyServer) {
-				shutdownIonicServe(ionicServe);
+				shutdownIonicServe(ionicServe, "SIGTERM");
 			}
 
 			return;
@@ -57,50 +52,12 @@ export const serveWithProxy = () => {
 
 		logHmrUpdate(stringifiedData);
 	});
-};
 
-const getIonicServeAddress = (
-	data: string,
-	ionicServeProcess: ChildProcessWithoutNullStreams
-) => {
-	const ionicDevServerUrlMatches = data.match(/Local: .*\n/);
+	ionicServe.on("close", () => {
+		logIonicServeShutdown();
 
-	if (!ionicDevServerUrlMatches || !ionicDevServerUrlMatches.length) {
-		shutdownIonicServe(ionicServeProcess, {
-			message:
-				"Error: Unable to retrieve local Ionic app development server URL"
-		});
+		if (proxyServer) shutdownProxyServer(proxyServer);
+	});
 
-		return null;
-	}
-
-	const ionicServeAddress = ionicDevServerUrlMatches[0].replace(
-		IONIC_DEV_SERVER_LOCAL_REGEX,
-		""
-	);
-
-	if (!serverAddressIsValid(ionicServeAddress)) {
-		shutdownIonicServe(ionicServeProcess, {
-			message: `Error: [${ionicServeAddress}] is not a valid Ionic app development server address`
-		});
-
-		return null;
-	}
-
-	return ionicServeAddress;
-};
-
-export const shutdownIonicServe = (
-	ionicServeProcess: ChildProcessWithoutNullStreams,
-	error?: ExecException | { message: string }
-) => {
-	if (error) {
-		logIonicServeError(error);
-	}
-
-	logIonicServeShutdown();
-
-	if (!ionicServeProcess.killed) {
-		ionicServeProcess.kill("SIGTERM");
-	}
+	return ionicServe;
 };
