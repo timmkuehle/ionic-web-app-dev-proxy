@@ -15,7 +15,7 @@ export const logProxyServerStartup = () => {
 };
 
 export const logProxyServerShutdown = (isRunning?: boolean, err?: Error) => {
-	if (!isRunning) {
+	if (isRunning === false) {
 		console.log("Proxy server is not running\n");
 		return;
 	}
@@ -23,7 +23,7 @@ export const logProxyServerShutdown = (isRunning?: boolean, err?: Error) => {
 	console.log(
 		"Shutting down proxy server for web app development ... " +
 			(err
-				? colors.red(`Error: ${err?.message}`)
+				? colors.red(`\nError: ${err?.message}`)
 				: colors.green("Success")) +
 			"\n"
 	);
