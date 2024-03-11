@@ -2,6 +2,7 @@ import colors from "colors";
 import {
 	IONIC_DEV_SERVER_HMR_REGEX,
 	IS_WEBPACK_WATCH,
+	SCRIPTS,
 	WEB_APP_DEV_PROXY_URL
 } from "../../constants";
 import { getStatusDescription } from "./utils";
@@ -116,4 +117,35 @@ export const logHmrUpdate = (data: string) => {
 	}
 
 	console.log(data.replace(/^\[(vite|webpack)\] |\n/g, ""));
+};
+
+export const logExecError = (
+	err:
+		| NodeJS.ErrnoException
+		| { code: string; message: string; stack?: string }
+) => {
+	console.log(
+		colors.red(
+			(err.stack?.split("\n")[0] ||
+				`Error: ${err.code}: ` +
+					err.message.replace(
+						/ionic-web-app-dev-proxy|\[[^\]]+\]/g,
+						(match) => colors.yellow(match.replace(/[[\]]/g, ""))
+					)) +
+				colors.cyan(
+					"\n\nNote: Valid commands are " +
+						SCRIPTS.reduce((prevScript, curScript, curIndex) => {
+							return (
+								(curIndex !== 0
+									? prevScript +
+										(curIndex < SCRIPTS.length - 1
+											? ", "
+											: " and ")
+									: "") + colors.yellow(curScript)
+							);
+						}, "") +
+						"\n"
+				)
+		)
+	);
 };
