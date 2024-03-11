@@ -1,6 +1,7 @@
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 const NodemonPlugin = require("nodemon-webpack-plugin");
+const ShebangPlugin = require("webpack-shebang-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = (env, argv) => {
@@ -18,8 +19,9 @@ module.exports = (env, argv) => {
 			})
 		],
 		entry: {
-			startProxyServer: "./src/startProxyServer.ts",
-			serveWithProxy: "./src/serveWithProxy.ts"
+			"scripts/startProxyServer": "./src/startProxyServer.ts",
+			"scripts/serveWithProxy": "./src/serveWithProxy.ts",
+			exec: "./src/exec.ts"
 		},
 		module: {
 			rules: [
@@ -32,7 +34,7 @@ module.exports = (env, argv) => {
 		},
 		resolve: { extensions: ["", ".js", ".ts"] },
 		output: {
-			path: path.resolve(__dirname, "scripts"),
+			path: path.resolve(__dirname),
 			filename: "[name].js"
 		},
 		plugins: [
@@ -42,9 +44,13 @@ module.exports = (env, argv) => {
 				ignore: ["*.js.map"],
 				args: ["--webpack-watch"]
 			}),
+			new ShebangPlugin(),
 			new CleanWebpackPlugin({
 				protectWebpackAssets: false,
-				cleanOnceBeforeBuildPatterns: ["**/*.js.map"],
+				cleanOnceBeforeBuildPatterns: [
+					"./*.js.map",
+					"scripts/*.js.map"
+				],
 				verbose: isProduction
 			})
 		],
