@@ -54,7 +54,7 @@ export const logProxyServerError = (
 
 	console.log(
 		colors.red(
-			(useBaseLog ? baseLog : "  ➜ ") + errMsg + (useBaseLog ? "\n" : "")
+			(useBaseLog ? baseLog : "  ➜ ") + errMsg + (useBaseLog ? "" : "\n")
 		)
 	);
 };
