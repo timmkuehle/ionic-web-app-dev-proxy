@@ -74,5 +74,7 @@ export const shutdownProxyServer = (
 
 	proxyServer.close((err) => {
 		logProxyServerShutdown(true, err);
+
+		process.exit(err ? 1 : 0);
 	});
 };
