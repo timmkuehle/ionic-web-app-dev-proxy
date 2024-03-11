@@ -1,15 +1,30 @@
 #!/usr/bin/env node
 
-import colors from "colors";
+import { SCRIPTS } from "../constants";
+import { logExecError } from "./modules/logFunctions";
+import { __dirname } from "../constants";
+import path from "path";
+import { fork } from "child_process";
 
 if (process.argv.length <= 2) {
-	console.log(
-		colors.red(
-			"Missing argument: No command provided: Valid commands are [serveWithProxy] and [startProxyServer]"
-		)
-	);
+	logExecError({
+		code: "EMISSARG",
+		message:
+			"Missing argument: ionic-web-app-dev-proxy needs to be provided with a command to execute"
+	});
 
 	process.exit(1);
 }
 
-console.log("Hello from exec.js", process.argv);
+const execScript = process.argv[2];
+
+if (!SCRIPTS.includes(execScript)) {
+	logExecError({
+		code: "EINVARG",
+		message: `Invalid argument: [${execScript}] is not a valid command`
+	});
+
+	process.exit(1);
+}
+
+fork(path.resolve(__dirname, `scripts/${execScript}.js`));
