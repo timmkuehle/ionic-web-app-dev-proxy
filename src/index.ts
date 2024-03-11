@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
+import { Server } from "http";
 import { logExecError } from "./modules/logFunctions";
-import { startProxyServer } from "./modules/proxyServer";
+import { shutdownProxyServer, startProxyServer } from "./modules/proxyServer";
 
 if (process.argv.length <= 2) {
 	logExecError({
@@ -13,9 +14,10 @@ if (process.argv.length <= 2) {
 	process.exit(1);
 }
 
+let proxyServer: Server | null;
 switch (process.argv[2]) {
 	case "startProxyServer":
-		startProxyServer("http://localhost:8100");
+		proxyServer = startProxyServer("http://localhost:8100");
 		break;
 	default: {
 		logExecError({
@@ -26,3 +28,9 @@ switch (process.argv[2]) {
 		process.exit(1);
 	}
 }
+
+process.on("SIGINT", () => {
+	process.stdout.write("\n");
+
+	shutdownProxyServer(proxyServer);
+});
