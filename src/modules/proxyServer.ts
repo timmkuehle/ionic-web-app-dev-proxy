@@ -48,13 +48,9 @@ export const startProxyServer = (ionicServeAddress: string) => {
 
 				forwardRequest(req, res, targetUrl);
 			})
-			.listen(
-				WEB_APP_DEV_PROXY_PORT + 111111,
-				WEB_APP_DEV_PROXY_HOST,
-				() => {
-					logProxyServerUrl();
-				}
-			)
+			.listen(WEB_APP_DEV_PROXY_PORT, WEB_APP_DEV_PROXY_HOST, () => {
+				logProxyServerUrl();
+			})
 			.on("error", (err) => {
 				logProxyServerError(err, true);
 			})
