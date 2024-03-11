@@ -34,9 +34,7 @@ export const logProxyServerUrl = () => {
 };
 
 export const logProxyServerError = (
-	err:
-		| NodeJS.ErrnoException
-		| { code: string; message: string; stack?: string },
+	err: NodeJS.ErrnoException,
 	useBaseLog?: boolean
 ) => {
 	let errMsg;
