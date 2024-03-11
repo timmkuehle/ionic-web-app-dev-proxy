@@ -2,7 +2,6 @@ import colors from "colors";
 import {
 	IONIC_DEV_SERVER_HMR_REGEX,
 	IS_WEBPACK_WATCH,
-	SCRIPTS,
 	WEB_APP_DEV_PROXY_URL
 } from "../../constants";
 import { getStatusDescription } from "./utils";

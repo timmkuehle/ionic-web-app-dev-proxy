@@ -30,5 +30,3 @@ export const IONIC_DEV_SERVER_RUNNING_REGEX = /Development server running!/;
 export const IONIC_DEV_SERVER_LOCAL_REGEX = /Local: |\n/g;
 
 export const IONIC_DEV_SERVER_HMR_REGEX = /hmr update/;
-
-export const SCRIPTS = ["serveWithProxy", "startProxyServer"];
