@@ -15,8 +15,7 @@ import {
 	logProxyServerError,
 	logProxyServerUrl,
 	logIncomingRequest,
-	logProxyServerShutdown,
-	logIonicServeError
+	logProxyServerShutdown
 } from "./logFunctions";
 
 export const startProxyServer = (ionicServeAddress: string) => {
@@ -57,7 +56,7 @@ export const startProxyServer = (ionicServeAddress: string) => {
 				}
 			)
 			.on("error", (err) => {
-				logIonicServeError(err);
+				logProxyServerError(err, true);
 			})
 			.on("close", () => {
 				logProxyServerShutdown();

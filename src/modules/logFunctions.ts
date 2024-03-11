@@ -36,7 +36,8 @@ export const logProxyServerUrl = () => {
 export const logProxyServerError = (
 	err:
 		| NodeJS.ErrnoException
-		| { code: string; message: string; stack?: string }
+		| { code: string; message: string; stack?: string },
+	useBaseLog?: boolean
 ) => {
 	let errMsg;
 	switch (err.code) {
@@ -45,7 +46,7 @@ export const logProxyServerError = (
 			break;
 		default:
 			errMsg =
-				err.stack?.split("\n")[0] ||
+				err.stack?.split("\n")?.[0] ||
 				`Error: ${err.code}: ${err.message}`;
 	}
 
@@ -53,7 +54,11 @@ export const logProxyServerError = (
 		colors.yellow(match.replace(/[[\]]/g, ""))
 	);
 
-	console.log(colors.red(`  ➜ ${errMsg}\n`));
+	console.log(
+		colors.red(
+			(useBaseLog ? baseLog : "  ➜ ") + errMsg + (useBaseLog ? "\n" : "")
+		)
+	);
 };
 
 const baseLog =
