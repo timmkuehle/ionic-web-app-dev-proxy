@@ -10,8 +10,8 @@
 	"scripts": {
 		"start": "webpack --watch --mode development",
 		"build": "webpack --mode production",
-		"startProxyServer": "node exec.js startProxyServer",
-		"serveWithProxy": "node scripts/serveWithProxy"
+		"serveWithProxy": "node exec.js serveWithProxy",
+		"startProxyServer": "node exec.js startProxyServer"
 	},
 	"repository": {
 		"type": "git",

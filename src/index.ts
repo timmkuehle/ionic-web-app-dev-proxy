@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 
 import { Server } from "http";
+import { ChildProcessWithoutNullStreams } from "child_process";
 import { logExecError } from "./modules/logFunctions";
+import { serveWithProxy } from "./modules/serveWithProxy";
+import { shutdownIonicServe } from "./modules/ionicServe";
 import { shutdownProxyServer, startProxyServer } from "./modules/proxyServer";
 
 if (process.argv.length <= 2) {
@@ -17,8 +20,12 @@ if (process.argv.length <= 2) {
 	process.exit(1);
 }
 
+let ionicServe: ChildProcessWithoutNullStreams | null;
 let proxyServer: Server | null;
 switch (process.argv[2]) {
+	case "serveWithProxy":
+		ionicServe = serveWithProxy();
+		break;
 	case "startProxyServer": {
 		if (process.argv.length <= 3) {
 			logExecError(
@@ -50,9 +57,13 @@ switch (process.argv[2]) {
 process.on("SIGINT", () => {
 	process.stdout.write("\n");
 
-	shutdownProxyServer(proxyServer);
+	if (proxyServer) shutdownProxyServer(proxyServer);
+
+	shutdownIonicServe(ionicServe, "SIGINT");
 });
 
 process.on("SIGTERM", () => {
-	shutdownProxyServer(proxyServer);
+	if (proxyServer) shutdownProxyServer(proxyServer);
+
+	shutdownIonicServe(ionicServe, "SIGTERM");
 });
