@@ -38,7 +38,7 @@ module.exports = (env, argv) => {
 				script: "./exec.js",
 				watch: path.resolve("./exec.js"),
 				ignore: ["*.js.map"],
-				args: ["serveWithProxy", "--webpack-watch"]
+				args: ["serveWithProxy", "webpackWatch"]
 			}),
 			new ShebangPlugin(),
 			new CleanWebpackPlugin({
