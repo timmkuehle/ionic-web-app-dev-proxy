@@ -23,17 +23,14 @@ export const startProxyServer = (ionicServeAddress: string) => {
 
 	logProxyServerStartup();
 
-	if (!serverAddressIsValid(ionicServeAddress)) {
-		logProxyServerError({
-			code: "EINVIONADDRPARAM",
-			message: `Invalid Parameter: [${ionicServeAddress}] is not a valid Ionic app development server address`
-		});
-
-		return null;
-	}
-
 	let proxyServer: Server | null = null;
 	try {
+		if (!serverAddressIsValid(ionicServeAddress)) {
+			throw new Error(
+				`Invalid Parameter: [${ionicServeAddress}] is not a valid Ionic app development server address`
+			);
+		}
+
 		proxyServer = http
 			.createServer((req, res) => {
 				const targetUrl = req.url?.replace(/^\//, "") || "/";
@@ -51,9 +48,13 @@ export const startProxyServer = (ionicServeAddress: string) => {
 
 				forwardRequest(req, res, targetUrl);
 			})
-			.listen(WEB_APP_DEV_PROXY_PORT, WEB_APP_DEV_PROXY_HOST, () => {
-				logProxyServerUrl();
-			})
+			.listen(
+				WEB_APP_DEV_PROXY_PORT + 111111,
+				WEB_APP_DEV_PROXY_HOST,
+				() => {
+					logProxyServerUrl();
+				}
+			)
 			.on("error", (err) => {
 				shutdownProxyServer(proxyServer, err);
 			})
@@ -61,7 +62,7 @@ export const startProxyServer = (ionicServeAddress: string) => {
 				logProxyServerShutdown();
 			});
 	} catch (err) {
-		shutdownProxyServer(proxyServer, err as NodeJS.ErrnoException);
+		logProxyServerError(err as NodeJS.ErrnoException);
 	}
 
 	return proxyServer;
