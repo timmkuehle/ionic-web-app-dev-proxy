@@ -4,11 +4,17 @@
 	"description": "A proxy server for HTTP requests from an ionic web application running locally",
 	"main": "index.js",
 	"type": "module",
+	"files": [
+		"index.d.ts"
+	],
+	"bin": {
+		"ionic-web-app-dev-proxy": "exec.js"
+	},
 	"scripts": {
 		"start": "webpack --watch --mode development",
 		"build": "webpack --mode production",
-		"startProxyServer": "node scripts/startServer",
-		"serveWithProxy": "node scripts/serveWithProxy"
+		"serveWithProxy": "node exec.js serveWithProxy",
+		"startProxyServer": "node exec.js startProxyServer"
 	},
 	"repository": {
 		"type": "git",
@@ -38,7 +44,8 @@
 		"typescript": "^5.3.3",
 		"webpack": "^5.90.3",
 		"webpack-cli": "^5.1.4",
-		"webpack-node-externals": "^3.0.0"
+		"webpack-node-externals": "^3.0.0",
+		"webpack-shebang-plugin": "^1.1.8"
 	},
 	"dependencies": {
 		"@capacitor/core": "^5.7.0",

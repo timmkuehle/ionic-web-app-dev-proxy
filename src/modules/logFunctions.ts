@@ -3,37 +3,55 @@ import {
 	IONIC_DEV_SERVER_HMR_REGEX,
 	IS_WEBPACK_WATCH,
 	WEB_APP_DEV_PROXY_URL
-} from "../../constants";
+} from "./constants";
 import { getStatusDescription } from "./utils";
 import { ExecException } from "child_process";
 
-export const logServerStartup = () => {
+export const logProxyServerStartup = () => {
 	console.log(
 		`${IS_WEBPACK_WATCH ? "\n" : ""}Starting proxy server for web app development ...\n`
 	);
 };
 
-export const logServerShutdown = () => {
-	console.log("\nShutting down proxy server for web app development ...\n");
+export const logProxyServerShutdown = (isRunning?: boolean, err?: Error) => {
+	if (isRunning === false) {
+		console.log("Proxy server is not running\n");
+		return;
+	}
+
+	console.log(
+		"Shutting down proxy server for web app development ... " +
+			(err ? colors.red(`\nError: ${err?.message}`) : "") +
+			"\n"
+	);
 };
 
-export const logServerUrl = () => {
+export const logProxyServerUrl = () => {
 	console.log(`${colors.green(`  ➜ ${WEB_APP_DEV_PROXY_URL}`)}\n`);
 };
 
-export const logServerError = (err: NodeJS.ErrnoException) => {
+export const logProxyServerError = (
+	err: NodeJS.ErrnoException,
+	useBaseLog?: boolean
+) => {
 	let errMsg;
 	switch (err.code) {
 		case "EADDRINUSE":
-			errMsg = `Error: listen EADDRINUSE: ${WEB_APP_DEV_PROXY_URL} is already in use.`;
+			errMsg = `Error: listen EADDRINUSE: [${WEB_APP_DEV_PROXY_URL}] is already in use.`;
 			break;
 		default:
 			errMsg =
-				err.stack?.split("\n")[0] ||
+				err.stack?.split("\n")?.[0] ||
 				`Error: ${err.code}: ${err.message}`;
 	}
 
-	console.log(colors.red(`  ➜ ${errMsg}\n`));
+	console.log(
+		colors.red(
+			(useBaseLog ? baseLog : "  ➜ ") +
+				highlightLogs(errMsg) +
+				(useBaseLog ? "" : "\n")
+		)
+	);
 };
 
 const baseLog =
@@ -86,7 +104,12 @@ export const logIonicServeStart = () => {
 	);
 };
 
-export const logIonicServeShutdown = () => {
+export const logIonicServeShutdown = (isRunning?: boolean) => {
+	if (isRunning === false) {
+		console.log("Ionic app development server is not running\n");
+		return;
+	}
+
 	console.log("Shutting down Ionic app development server ...\n");
 };
 
@@ -113,3 +136,23 @@ export const logHmrUpdate = (data: string) => {
 
 	console.log(data.replace(/^\[(vite|webpack)\] |\n/g, ""));
 };
+
+export const logExecError = (
+	err:
+		| NodeJS.ErrnoException
+		| { code: string; message: string; stack?: string },
+	note?: string
+) => {
+	console.log(
+		colors.red(
+			(err.stack?.split("\n")[0] ||
+				`Error: ${err.code}: ${highlightLogs(err.message)}`) +
+				(note ? colors.cyan(`\n\n${highlightLogs(note)}\n`) : "")
+		)
+	);
+};
+
+const highlightLogs = (log: string) =>
+	log.replace(/ionic-web-app-dev-proxy|\[[^\]]+\]/g, (match) =>
+		colors.yellow(match.replace(/[[\]]/g, ""))
+	);

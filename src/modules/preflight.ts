@@ -1,11 +1,12 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { allowedOrigins } from "../../constants";
+import { ALLOWED_ORIGINS } from "./constants";
 import { setHeaders } from "./headers";
 import { resolveRequest, resolveWithError } from "./resolve";
 
 export const runPreflightCheck = (
 	req: IncomingMessage,
-	res: ServerResponse<IncomingMessage>
+	res: ServerResponse<IncomingMessage>,
+	ionicServeAddress: string | null
 ) => {
 	const { origin } = req.headers;
 
@@ -17,7 +18,7 @@ export const runPreflightCheck = (
 			code: 400,
 			message: "Proxy server is unable to determine request origin"
 		};
-	} else if (!allowedOrigins.includes(origin)) {
+	} else if (![...ALLOWED_ORIGINS, ionicServeAddress].includes(origin)) {
 		error = {
 			code: 403,
 			message: `Origin [${origin}] is not allowed to access proxy server`

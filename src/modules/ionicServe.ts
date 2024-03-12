@@ -1,7 +1,7 @@
 import { ChildProcessWithoutNullStreams, ExecException } from "child_process";
+import { IONIC_DEV_SERVER_LOCAL_REGEX } from "./constants";
 import { logIonicServeError, logIonicServeShutdown } from "./logFunctions";
 import { serverAddressIsValid } from "./validation";
-import { IONIC_DEV_SERVER_LOCAL_REGEX } from "../../constants";
 
 export const getIonicServeAddress = (
 	data: string,
@@ -10,7 +10,7 @@ export const getIonicServeAddress = (
 	const ionicDevServerUrlMatches = data.match(/Local: .*\n/);
 
 	if (!ionicDevServerUrlMatches || !ionicDevServerUrlMatches.length) {
-		shutdownIonicServe(ionicServeProcess, {
+		shutdownIonicServe(ionicServeProcess, "SIGTERM", {
 			message:
 				"Error: Unable to retrieve local Ionic app development server URL"
 		});
@@ -18,33 +18,35 @@ export const getIonicServeAddress = (
 		return null;
 	}
 
-	const ionicDevServerUrl = ionicDevServerUrlMatches[0].replace(
+	const ionicServeAddress = ionicDevServerUrlMatches[0].replace(
 		IONIC_DEV_SERVER_LOCAL_REGEX,
 		""
 	);
 
-	if (!serverAddressIsValid(ionicDevServerUrl)) {
-		shutdownIonicServe(ionicServeProcess, {
-			message: `Error: Ionic app development server address [${ionicDevServerUrl}] is invalid`
+	if (!serverAddressIsValid(ionicServeAddress)) {
+		shutdownIonicServe(ionicServeProcess, "SIGTERM", {
+			message: `Error: [${ionicServeAddress}] is not a valid Ionic app development server address`
 		});
 
 		return null;
 	}
 
-	return ionicDevServerUrl;
+	return ionicServeAddress;
 };
 
 export const shutdownIonicServe = (
-	ionicServeProcess: ChildProcessWithoutNullStreams,
+	ionicServeProcess: ChildProcessWithoutNullStreams | null,
+	signal: "SIGINT" | "SIGTERM",
 	error?: ExecException | { message: string }
 ) => {
 	if (error) {
 		logIonicServeError(error);
 	}
 
-	logIonicServeShutdown();
-
-	if (!ionicServeProcess.killed) {
-		ionicServeProcess.kill("SIGTERM");
+	if (!ionicServeProcess || ionicServeProcess.killed) {
+		logIonicServeShutdown(false);
+		return;
 	}
+
+	ionicServeProcess.kill(signal);
 };
