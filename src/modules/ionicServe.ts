@@ -1,11 +1,7 @@
 import { ChildProcessWithoutNullStreams, ExecException } from "child_process";
-import {
-	logIonicServeError,
-	logIonicServeShutdown,
-	logServerError
-} from "./logFunctions";
+import { IONIC_DEV_SERVER_LOCAL_REGEX } from "./constants";
+import { logIonicServeError, logIonicServeShutdown } from "./logFunctions";
 import { serverAddressIsValid } from "./validation";
-import { IONIC_DEV_SERVER_LOCAL_REGEX } from "../../constants";
 
 export const getIonicServeAddress = (
 	data: string,
@@ -14,7 +10,7 @@ export const getIonicServeAddress = (
 	const ionicDevServerUrlMatches = data.match(/Local: .*\n/);
 
 	if (!ionicDevServerUrlMatches || !ionicDevServerUrlMatches.length) {
-		shutdownIonicServe(ionicServeProcess, {
+		shutdownIonicServe(ionicServeProcess, "SIGTERM", {
 			message:
 				"Error: Unable to retrieve local Ionic app development server URL"
 		});
@@ -28,7 +24,7 @@ export const getIonicServeAddress = (
 	);
 
 	if (!serverAddressIsValid(ionicServeAddress)) {
-		shutdownIonicServe(ionicServeProcess, {
+		shutdownIonicServe(ionicServeProcess, "SIGTERM", {
 			message: `Error: [${ionicServeAddress}] is not a valid Ionic app development server address`
 		});
 
@@ -38,43 +34,19 @@ export const getIonicServeAddress = (
 	return ionicServeAddress;
 };
 
-export const getIonicServeAddressFromArgv = () => {
-	const { argv } = process;
-
-	if (argv.length <= 2) {
-		logServerError({
-			code: "NOIONADDRARG",
-			message: "Missing Argument: No Ionic serve address provided"
-		});
-
-		return null;
-	}
-
-	const ionicServeAddress = argv[2];
-
-	if (!serverAddressIsValid(ionicServeAddress)) {
-		logServerError({
-			code: "INVIONADDRARG",
-			message: `Invalid Argument: [${ionicServeAddress}] is not a valid Ionic app development server address`
-		});
-
-		return null;
-	}
-
-	return ionicServeAddress;
-};
-
 export const shutdownIonicServe = (
-	ionicServeProcess: ChildProcessWithoutNullStreams,
+	ionicServeProcess: ChildProcessWithoutNullStreams | null,
+	signal: "SIGINT" | "SIGTERM",
 	error?: ExecException | { message: string }
 ) => {
 	if (error) {
 		logIonicServeError(error);
 	}
 
-	logIonicServeShutdown();
-
-	if (!ionicServeProcess.killed) {
-		ionicServeProcess.kill("SIGTERM");
+	if (!ionicServeProcess || ionicServeProcess.killed) {
+		logIonicServeShutdown(false);
+		return;
 	}
+
+	ionicServeProcess.kill(signal);
 };
