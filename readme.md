@@ -9,23 +9,33 @@ This package attempts to cover that oversight, by providing an easy-to-use, zero
 
 ## Installation
 
-Clone the repo to a subdirectory of your Ionic app directory. We'll assume the directory `./scripts` in this example:
+Install this package in your Ionic project as a dev dependency
 
 ```shell
-git clone https://github.com/timmkuehle/ionic-web-app-dev-proxy.git
+# npm
+npm install --save-dev ionic-web-app-dev-proxy
 ```
 
 ## Usage
 
-Adjust the dev script in your app's package.json to look like this (remember to replace "scripts" with your individual subdirectory):
+Adjust the dev script in your app's package.json to look like this:
 
 ```json
 "scripts": {
-  "dev": "cd scripts/ionic-web-app-dev-proxy && npm run-script serveWithProxy",
+  "dev": "ionic-web-app-dev-proxy serveWithProxy",
 }
 ```
 
 When you now run `npm run dev` the script will execute `ionic serve` to preview your app and start the proxy server on port 8910 to be able to forward HTTP calls.
+
+Optionally you can also add a script to start the proxy server without running ionic serve. In this case you have to provide an Ionic serve address (protocol, hostname and port of your running Ionic app) manually:
+
+```json
+"scripts": {
+  "dev": "ionic-web-app-dev-proxy serveWithProxy",
+  "startWebAppProxy": "ionic-web-app-dev-proxy startProxyServer http://localhost:8100"
+}
+```
 
 In your app you can import the `adaptFetchUrl` function and use it to wrap your fetch URLs. This function will ensure that HTTP calls are redirected through the proxy when testing the web app locally and simply return the unaltered URL in all other scenarios:
 
