@@ -1,6 +1,6 @@
 import { spawn } from "child_process";
 import { Server } from "http";
-import { IONIC_DEV_SERVER_RUNNING_REGEX } from "../../constants";
+import { IONIC_DEV_SERVER_RUNNING_REGEX } from "./constants";
 import { checkEnv } from "./utils";
 import {
 	logHmrUpdate,

@@ -1,5 +1,5 @@
 import { ChildProcessWithoutNullStreams, ExecException } from "child_process";
-import { IONIC_DEV_SERVER_LOCAL_REGEX } from "../../constants";
+import { IONIC_DEV_SERVER_LOCAL_REGEX } from "./constants";
 import { logIonicServeError, logIonicServeShutdown } from "./logFunctions";
 import { serverAddressIsValid } from "./validation";
 
