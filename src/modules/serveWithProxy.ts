@@ -17,7 +17,7 @@ export const serveWithProxy = () => {
 
 	logIonicServeStart();
 
-	const ionicServe = spawn("ionic", ["serve", "--no-open"]);
+	const ionicServe = spawn("ionic", ["serve"]);
 
 	ionicServe.on("error", (err) => {
 		logIonicServeError(err);
