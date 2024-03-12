@@ -21,7 +21,7 @@ export const urlIsValid = (
 
 export const serverAddressIsValid = (url: string) => {
 	if (
-		!/^(https?:\/\/(www\.)?([\w0-9-]+\.?)+([a-z]{2,63})?|([0-9]{1,3}\.){3}[0-9]{1,3}):[0-9]{1,5}$/.test(
+		!/^(https?:\/\/(www\.)?([\w0-9-]+\.?)+([a-z]{2,63})?|([0-9]{1,3}\.){3}[0-9]{1,3})(:[0-9]{1,5})?$/.test(
 			url
 		)
 	) {

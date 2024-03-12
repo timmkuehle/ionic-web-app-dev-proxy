@@ -1,6 +1,6 @@
 {
 	"name": "ionic-web-app-dev-proxy",
-	"version": "0.0.9",
+	"version": "1.0.0",
 	"description": "A proxy server for HTTP requests from an ionic web application running locally",
 	"main": "index.js",
 	"type": "module",
